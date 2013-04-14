@@ -2,18 +2,18 @@
 
 !SLIDE
 
-# A Title Slide
+# New in Scala 2.10!
 
-## me@example.com
+}}} images/sauvabelin.jpg
+
+### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
 
 !SLIDE
 
 # Some sample code
 
-``` ruby
-def method
-  puts "Hello, World"
-end
+``` scala
+class Meter(x: Double) extends AnyVal
 ```
 
 !NOTES
@@ -22,6 +22,3 @@ end
 
 !SLIDE
 
-# With a Background Image
-
-}}} images/test.png

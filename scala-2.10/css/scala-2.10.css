@@ -10,3 +10,32 @@
 /*.deck-status {*/
     /*display: none;*/
 /*}*/
+
+.slide.intro {
+  background-size: cover;
+  background-image: url(../images/sauvabelin.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #000;
+}
+
+.slide.intro h1 {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 5%;
+  top: 20%;
+  font-weight: normal;
+  color: white;
+  width: 100%;
+}
+
+
+.slide.intro h4 {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #aaa;
+  position: absolute;
+  bottom: 5%;
+  left: 1%;
+}
+

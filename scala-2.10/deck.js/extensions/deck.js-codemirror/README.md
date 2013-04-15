@@ -8,6 +8,15 @@ An example is running here: http://ireneros.com/deck/deck.js-codemirror/introduc
 
 You can also see those slides in the `introduction` folder.
 
+# 1.0.0rc #
+
+Due to CodeMirror 3.0 being somewhat different, I've had to make a few adjustments to the plugin styling. You can test them on the [1.0.0rc](https://github.com/iros/deck.js-codemirror/tree/1.0.0rc) branch. Please submit issues if any exist, otherwise I will be merging this into master in the next few weeks. 
+
+## Upgrade notes ##
+1. Be sure to include the additional `codemirror.css` file.
+
+Thee rest should really behave itself.... I hope.
+ 
 # Installation: #
 
 Move all this into a folder called 'codemirror' in your deck.js/extensions/ folder.
@@ -26,7 +35,7 @@ Include the JS source:
     <!-- Syntax highlighting Modes -->
     
     <!-- javascript -->
-    <script src="../mode/javascript/javascript.js"></script>
+    <script src="../extensions/codemirror/mode/javascript/javascript.js"></script>
 
     <!-- html mode (note html mode requires xml, css and javascript) -->
     <script src="../extensions/codemirror/mode/xml/xml.js"></script>
@@ -45,6 +54,7 @@ Include your favorite CodeMirror syntax style:
     cobalt.css
     default.css
     elegant.css
+    lesser-dark.css
     neat.css
     night.css
 
@@ -92,6 +102,23 @@ the editor that it's running for:
       console.log(someVar);
     </textarea>
 
+# Cleanup scripts: #
+
+Sometimes you just have to clean up the mess you made, or have something execute
+after your code that the reader doesn't need to see. No problem! Add a cleanup script
+as follows:
+
+    <script type="codemirror/cleanup" data-selector="#code4">
+      someVar = 20;
+      
+      // This will output 20!
+      console.log(someVar);
+    </script>
+
+    <textarea id="code4" name="code" class="code" mode="javascript" style="display: none;" runnable="true">
+      var someVar = 10;
+    </textarea>
+
 # Globals! #
 
 Sometimes you just need to access a global of some kind. The code in the codemirror editors is executed
@@ -116,5 +143,11 @@ Regardless of your element type, the following attributes should be set:
 # Contact: #
 Irene Ros (@ireneros)
 http://bocoup.com
+
+# Contriburors: #
+Much thanks to:
+
+* @tbranyen (Tim Branyen)
+* @Anks (Ankit Solanki)
 
     

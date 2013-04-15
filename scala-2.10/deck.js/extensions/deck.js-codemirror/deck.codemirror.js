@@ -53,11 +53,20 @@
     var $container = $[deck]('getContainer'),
         opts = $[deck]('getOptions'),
         codeblocks = $(slide).find(opts.selectors.codemirroritem),
-        hiddenScripts = [];
+        hiddenScripts  = [],
+        cleanupScripts = [];
 
     // Seek out and cache all hidden scripts
     $("script[type=codemirror]").each(function() {
       hiddenScripts.push({
+        selector: $(this).data("selector"),
+        src: this.innerHTML
+      });
+    });
+    
+    // Seek out and cache all cleanup scripts
+    $("script[type=\"codemirror/cleanup\"]").each(function() {
+      cleanupScripts.push({
         selector: $(this).data("selector"),
         src: this.innerHTML
       });
@@ -115,9 +124,19 @@
                 "class" : "button",
                 text : "Run"
               }).prependTo(wrapper),
+              clearButton  = $('<div>', {
+                "class" : "button clear",
+                text : "Clear"
+              }).prependTo(wrapper),
               output = $('<div>', {
                 "class" : opts.classes.codemirrorresult
               }).appendTo($(wrapper).parent());
+
+          clearButton.click(function(editor, output){
+            return function(event) {
+              output.html('');
+            };
+          }(editor, output));
 
           button.click(function(editor, output){
             return function(event) {
@@ -134,11 +153,20 @@
                 .appendTo($d.find('body'));
 
               // Overwrite the default log behavior to pipe to an output element.
-              console.log = function(msg) {     
+
+              // Overwrite the default log behavior to pipe to an output element.
+              console.log = function() {
+                var messages = [];
+                // Convert all arguments to Strings (Objects will be JSONified).
+                for (var i = 0; i < arguments.length; i++) {
+                  var value = arguments[i];
+                  messages.push(typeof(value) == 'object' ? JSON.stringify(value) : String(value));
+                }
+                var msg = messages.join(" ");
                 if (output.html() !== "") {
-                  output.append("<br />" + msg);  
+                  output.append("<br />" + msg);
                 } else {
-                  output.html(msg);
+                    output.html(msg);
                 }
               };
 
@@ -162,13 +190,21 @@
 
               var combinedSource = "";
 
+              // Prepend all setup scripts
               $.each(hiddenScripts, function() {
                 if ($(codeblock).is(this.selector)) {
                   combinedSource += this.src + "\n";
                 }
               });
-
+              
               combinedSource += editor.getValue();
+              
+              // Append all cleanup scripts
+              $.each(cleanupScripts, function() {
+                if ($(codeblock).is(this.selector)) {
+                  combinedSource = combinedSource + this.src + "\n";
+                }
+              });
 
               // eval in the sandbox.
               sandbox.eval(combinedSource);
@@ -186,26 +222,11 @@
   };
 
   $d.bind('deck.init', function() {
-    
-    // codemirrorify current and next slide, since we're in the beginning.
-    codemirrorify($.deck('getSlide', 0));
-    codemirrorify($.deck('getSlide', 1));
-  });
-
-  $d.bind('deck.change', function(event, from, to) {
-    var $slides    = $[deck]('getSlides');
-    // codemirrorify previous slide
-    if (to > 0) {
-      codemirrorify($.deck('getSlide', to - 1));
-    } 
-    
-    // codemirrorify current slide
-    codemirrorify($.deck('getSlide', to));
-
-    // codemirrorify next slide
-    if (to+1 < $slides.length) {
-      codemirrorify($.deck('getSlide', to + 1));
-    }
+    //codemirrorify all the decks so that scale is correctly computed
+    var slides = $[deck]('getSlides');
+    $(slides).each(function(i){
+        codemirrorify($.deck('getSlide', i));
+    });
   });
 })(jQuery, 'deck', this);
 

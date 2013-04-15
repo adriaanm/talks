@@ -39,13 +39,46 @@
       theme : "default",
       indentUnit : 1,
       indentWithTabs : false,
-      runnable : false
+      runnable : true
     }
   });
   
   // flag to indicate that we are currently in the editor. Required to stop keypress
   // propagation to all other extensions.
   var inEditor = false;
+
+
+  // ------------ globals
+
+  var message = function (msg) {
+    // alert(msg)
+    // $('#msgLog').text(msg);
+  }
+
+  // ------------ send / receive
+
+  var connect = function (send, receivedReply) {
+      try {
+          var socket = new WebSocket("ws://localhost:8080/socket/repl");
+          // message('Socket Status: '+socket.readyState);
+          // $('#status').removeClass('off zero one two').addClass('zero')
+          socket.onopen = function() {
+             message('Socket Status: '+socket.readyState+' (open)');
+             send(socket)
+             // $('#status').removeClass('off zero one two').addClass('one')
+          }
+          socket.onmessage = function(msg) {
+//                 receivedReply(msg.data+'\n\r') // not sure that's the right thing to do...
+             receivedReply(msg.data) // not sure that's the right thing to do...
+          }
+          socket.onclose = function() {
+            message('Socket Status: '+socket.readyState+' (Closed)');
+            // $('#status').removeClass('off zero one two').addClass('two')
+          }
+      } catch(ex) {
+         message('Error: '+ex)
+      }
+  }
 
   // a helper private function that can be used to "codemirror" a slide if that slide
   // has any elements with the proper classname.
@@ -140,80 +173,91 @@
 
           button.click(function(editor, output){
             return function(event) {
-
-              // save the default logging behavior.
-              var real_console_log = console.log;
-              
-              // save the default logging behavior.
-              // Following Dean Edward's fantastic sandbox code:
-              // http://dean.edwards.name/weblog/2006/11/sandbox/+evaluating+js+in+an+iframe
-              // create an iframe sandbox for this element.
-              var iframe = $("<iframe>")
-                .css("display", "none")
-                .appendTo($d.find('body'));
-
-              // Overwrite the default log behavior to pipe to an output element.
-
-              // Overwrite the default log behavior to pipe to an output element.
-              console.log = function() {
-                var messages = [];
-                // Convert all arguments to Strings (Objects will be JSONified).
-                for (var i = 0; i < arguments.length; i++) {
-                  var value = arguments[i];
-                  messages.push(typeof(value) == 'object' ? JSON.stringify(value) : String(value));
-                }
-                var msg = messages.join(" ");
-                if (output.html() !== "") {
-                  output.append("<br />" + msg);
-                } else {
-                    output.html(msg);
-                }
-              };
-
-              var sandBoxMarkup = "<script>"+
-                "var MSIE/*@cc_on =1@*/;"+ // sniff
-                "console={ log: parent.console.log };" +
-                "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}<\/script>";
-
-              var exposeGlobals;
-              if (exposeGlobals = $(codeblock).attr("globals")) {
-                exposeGlobals = exposeGlobals.split(",");
-
-                $.each(exposeGlobals, function(prop, val) {
-                  val = $.trim(val);
-                  iframe[0].contentWindow[val] = window[val];
-                });
+              try {
+                connect(
+                  function (socket) {
+                    socket.send("run:"+ editor.getValue());
+                  },
+                  function (msg) {
+                    output.html(msg)
+                  });
+              } catch (exception) {
+                message(exception);
               }
 
-              // write a script into the <iframe> and create the sandbox
-              frames[frames.length - 1].document.write(sandBoxMarkup);
-
-              var combinedSource = "";
-
-              // Prepend all setup scripts
-              $.each(hiddenScripts, function() {
-                if ($(codeblock).is(this.selector)) {
-                  combinedSource += this.src + "\n";
-                }
-              });
-              
-              combinedSource += editor.getValue();
-              
-              // Append all cleanup scripts
-              $.each(cleanupScripts, function() {
-                if ($(codeblock).is(this.selector)) {
-                  combinedSource = combinedSource + this.src + "\n";
-                }
-              });
-
-              // eval in the sandbox.
-              sandbox.eval(combinedSource);
-
-              // get rid of the frame. New Frame for every context.
-              iframe.remove();
-              
-              // set the old logging behavior back.
-              console.log = real_console_log;
+              // // save the default logging behavior.
+              // var real_console_log = console.log;
+              //
+              // // save the default logging behavior.
+              // // Following Dean Edward's fantastic sandbox code:
+              // // http://dean.edwards.name/weblog/2006/11/sandbox/+evaluating+js+in+an+iframe
+              // // create an iframe sandbox for this element.
+              // var iframe = $("<iframe>")
+              //   .css("display", "none")
+              //   .appendTo($d.find('body'));
+              //
+              // // Overwrite the default log behavior to pipe to an output element.
+              //
+              // // Overwrite the default log behavior to pipe to an output element.
+              // console.log = function() {
+              //   var messages = [];
+              //   // Convert all arguments to Strings (Objects will be JSONified).
+              //   for (var i = 0; i < arguments.length; i++) {
+              //     var value = arguments[i];
+              //     messages.push(typeof(value) == 'object' ? JSON.stringify(value) : String(value));
+              //   }
+              //   var msg = messages.join(" ");
+              //   if (output.html() !== "") {
+              //     output.append("<br />" + msg);
+              //   } else {
+              //       output.html(msg);
+              //   }
+              // };
+              //
+              // var sandBoxMarkup = "<script>"+
+              //   "var MSIE/*@cc_on =1@*/;"+ // sniff
+              //   "console={ log: parent.console.log };" +
+              //   "parent.sandbox=MSIE?this:{eval:function(s){return eval(s)}}<\/script>";
+              //
+              // var exposeGlobals;
+              // if (exposeGlobals = $(codeblock).attr("globals")) {
+              //   exposeGlobals = exposeGlobals.split(",");
+              //
+              //   $.each(exposeGlobals, function(prop, val) {
+              //     val = $.trim(val);
+              //     iframe[0].contentWindow[val] = window[val];
+              //   });
+              // }
+              //
+              // // write a script into the <iframe> and create the sandbox
+              // frames[frames.length - 1].document.write(sandBoxMarkup);
+              //
+              // var combinedSource = "";
+              //
+              // // Prepend all setup scripts
+              // $.each(hiddenScripts, function() {
+              //   if ($(codeblock).is(this.selector)) {
+              //     combinedSource += this.src + "\n";
+              //   }
+              // });
+              //
+              // combinedSource += editor.getValue();
+              //
+              // // Append all cleanup scripts
+              // $.each(cleanupScripts, function() {
+              //   if ($(codeblock).is(this.selector)) {
+              //     combinedSource = combinedSource + this.src + "\n";
+              //   }
+              // });
+              //
+              // // eval in the sandbox.
+              // sandbox.eval(combinedSource);
+              //
+              // // get rid of the frame. New Frame for every context.
+              // iframe.remove();
+              //
+              // // set the old logging behavior back.
+              // console.log = real_console_log;
             }
           }(editor, output));
         }

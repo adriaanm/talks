@@ -4,12 +4,15 @@
     border: 1px solid #ddd;
     border-top: none;
     padding: 10px;
+    font-size: 12px;
     font-family: monospace; }
   .deck-container .slide .CodeMirror {
     line-height: 1em;
     font-family: monospace;
     overflow: auto;
     height: 100%;
+    min-width: 25em;
+    background-color: #f7f7f7;
     border: 1px solid #ddd; }
     .deck-container .slide .CodeMirror .button {
       padding: 5px;
@@ -19,25 +22,24 @@
       float: right;
       font-size: 11px;
       line-height: 16px;
-      padding: 2px 6px;
-      margin-bottom: -20px;
-      margin-right: 10px;
+      padding: 2px 4px;
+      top: 0px;
+      margin-right: 5px;
       border-radius: 4px;
       -moz-border-radius: 4px;
       -webkit-border-radius: 4px;
-      z-index: 1;
-      top: 8px; }
+      z-index: 1; }
     .deck-container .slide .CodeMirror .button:hover {
-      background-color: #eee; }
+      background-color: white; }
     .deck-container .slide .CodeMirror .button.clear {
-      margin-right: 50px; }
+      margin-right: 5px; }
   .deck-container .slide .CodeMirror-scroll {
     /* overflow: auto; */
     /* This is needed to prevent an IE[67] bug where the scrolled content
        is visible outside of the scrolling box. */
     position: relative;
     height: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: auto;
     width: 100%; }
   .deck-container .slide .CodeMirror-gutter {
@@ -76,8 +78,8 @@
   .deck-container .slide .CodeMirror-cursor {
     z-index: 10;
     position: absolute;
-    visibility: hidden;
-    border-left: 1px solid black !important; }
+/*    visibility: hidden;*/
+    border-left: 1px solid white !important; }
   .deck-container .slide .CodeMirror-focused .CodeMirror-cursor {
     visibility: visible; }
   .deck-container .slide span.CodeMirror-selected {

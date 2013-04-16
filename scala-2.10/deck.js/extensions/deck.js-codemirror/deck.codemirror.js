@@ -179,7 +179,7 @@
                     socket.send("run:"+ editor.getValue());
                   },
                   function (msg) {
-                    output.html(msg)
+                    output.html("<pre>"+ msg.replace(/\n/g, '<br>')+ "</pre>")
                   });
               } catch (exception) {
                 message(exception);

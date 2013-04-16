@@ -11,7 +11,7 @@ Ported to CodeMirror by Peter Kroon
 
 .cm-s-default { background: #262626; color: #EBEFE7; text-shadow: 0 -1px 1px #262626; }
 .cm-s-default div.CodeMirror-selected {background: #45443B !important;} /* 33322B*/
-.cm-s-default .CodeMirror-cursor { border-left: 1px solid white !important; }
+.cm-s-default .CodeMirror-cursor { border-left: 4px solid white !important; }
 .cm-s-default .CodeMirror-lines { margin-left:3px; margin-right:3px; }/*editable code holder*/
 
 div.CodeMirror span.CodeMirror-matchingbracket { color: #7EFC7E; }/*65FC65*/

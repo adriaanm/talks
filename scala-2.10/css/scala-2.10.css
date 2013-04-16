@@ -12,7 +12,8 @@
 /*}*/
 
 .slide.intro {
-  background-size: cover;
+  width: 100%;
+  background-size: contain;
   background-image: url(../images/sauvabelin.jpg);
   background-repeat: no-repeat;
   background-position: center center;
@@ -21,12 +22,19 @@
 
 .slide.intro h1 {
   background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  right: 5%;
-  top: 20%;
   font-weight: normal;
   color: white;
   width: 100%;
+}
+
+.slide.intro h4 {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #aaa;
+  align: center;
+  bottom: 2%;
+  position: absolute;
+  left: 10%;
 }
 
 .slide.left content {
@@ -41,13 +49,4 @@
 }
 
 
-
-.slide.intro h4 {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #aaa;
-  position: absolute;
-  bottom: 5%;
-  left: 1%;
-}
 

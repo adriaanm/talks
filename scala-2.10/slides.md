@@ -13,21 +13,17 @@
 	
 !SLIDE
 # Scala
-## Simple.
+## Simple
 
 !SLIDE
 # Scala
 ## I'm serious.
 
 !SLIDE
-# Scala
-## I'll be convincing.
-
-!SLIDE
 # Scala = Unifier
 
-  * Functions (Small abstractions.)
-  * Objects and traits (Big abstractions.)
+  * Functions (small abstractions)
+  * Objects and traits (big abstractions)
 
 
 !SLIDE
@@ -38,6 +34,8 @@
 
 !SLIDE
 # Experimenting
+## Queue demo effect
+
 ``` text/x-scala
 println("")
 ```
@@ -68,11 +66,69 @@ def interpret(data: String): String = {
       util.stringFromStream { ostream =>
         Console.withOut(ostream) {
           interpreter.interpret(source) } }
-    case Array(rx"""complete@(\d*)${I(pos)}""", source) =>
+    case Array(r"""complete@(\d*)${I(pos)}""", source) =>
       // handle completion at position $pos
   }
 }
 ```
+
+
+!SLIDE
+# To be continued
+
+
+!SLIDE left
+# Scala 2.10 highlights
+
+  * String Interpolation ([SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US))
+  * Rewritten Pattern Matcher
+  * Value Classes ([SIP-15](https://docs.google.com/document/d/10TQKgMiJTbVtkdRG53wsLYwWM2MkhtmdV25-NZvLLMA/edit?hl=en_US))
+  * Implicit Classes ([SIP-13](http://docs.scala-lang.org/sips/pending/implicit-classes.html))
+
+!SLIDE left
+# Scala 2.10 highlights
+
+  * Feature Imports ([SIP-18](https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit))
+  * Futures and Promises ([SIP-14](http://docs.scala-lang.org/sips/pending/futures-promises.html))
+  * Reflection (experimental, [overview](http://docs.scala-lang.org/overviews/reflection/overview.html))
+  * Macros (experimental, [SIP-16](http://docs.scala-lang.org/overviews/macros/overview.html))
+  * trait Dynamic ([SIP-17](https://docs.google.com/document/d/1XaNgZ06AR7bXJA9-jHrAiBVUwqReqG4-av6beoLaf3U/edit))
+  * Dependent method types (cake factory methods)
+  * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
+
+
+
+!SLIDE left
+# Pattern matcher
+
+  * Rewritten from scratch
+  * Dozen long-standing bugs fixed
+    * Favorite: [exponential-space bytecode](https://issues.scala-lang.org/browse/SI-1133)
+    * Total: [close to 100](https://issues.scala-lang.org/sr/jira.issueviews:searchrequest-printable/12201/SearchRequest-12201.html?tempMax=1000)
+
+
+!SLIDE left
+# Pattern matcher
+## New and improved
+
+  * Error messages: SAT
+  * Virtualized: e.g., in the [probability monad](https://github.com/namin/scala/blob/topic-virt-patmat-2.10.0/test/files/run/virtpatmat_problang3.scala)
+
+
+!SLIDE
+# Exhausting
+## 
+
+``` text/x-scala
+def check(x: Option[String]) = x match {
+  case Some("magic") =>
+}
+```
+
+!NOTES
+case Some(_) =>
+case None =>
+
 
 !SLIDE
 # Scala = Unifier
@@ -80,7 +136,7 @@ def interpret(data: String): String = {
 
 ``` text/x-scala
 implicit class RContext(sc: StringContext) {
-  def rx = new Regex(
+  def r = new Regex(
     sc.parts.mkString(""), 
     sc.parts.tail.map(_ => "x"): _*
   )
@@ -88,7 +144,7 @@ implicit class RContext(sc: StringContext) {
 
 object I { def unapply(x: String) = Try { x.toInt } toOption }
 
-case Array(rx"""complete@(\d*)${I(pos)}""", source) =>
+case Array(r"""complete@(\d*)${I(pos)}""", source) =>
 ```
 
 !NOTES
@@ -98,8 +154,13 @@ value classes
 string interpolators
 patmat & objects
 macros (printf-style validation)
- 
- 
+
+
+
+
+
+
+
  
 !NOTES 
 # Scala = Pragmatic
@@ -153,22 +214,6 @@ Future { y = 1 } ; Future { y = 2 }
 # Scala 2.10 got bigger
 ## As a community, finding our voice.
 
-!SLIDE left
-
-# Scala 2.10 highlights:
-
-  * Value Classes
-  * Implicit Classes
-  * String Interpolation
-  * Rewritten Pattern Matcher
-
-!SLIDE left
-
-  * Feature Imports (SIP-18)
-  * Futures and Promises (SIP-14)
-  * trait Dynamic
-  * Macros & Reflection (experimental)
-  * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
 
 !SLIDE left
 

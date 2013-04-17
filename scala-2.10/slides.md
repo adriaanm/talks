@@ -1,24 +1,27 @@
-# scala-2.10
+# What's new in Scala 2.10
 
 !SLIDE intro
-
 # Scala 2.10!
-
-
 #### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
 
+!SLIDE days
+#[Scala Days](http://scaladays.org)
+
+### **ScalaDays13SFScala**
+### 20% discount
+### June 10th-12th 2013, NYC
+
 !SLIDE center
-
 # Scala
-
 ## Simple.
 
 !SLIDE center
-
 # Scala
-
 ## I'm serious.
 
+!SLIDE center
+# Scala
+## I'll be convincing.
 
 !SLIDE left
 # Scala = Unifier
@@ -32,11 +35,14 @@
   * Functions (Small abstractions.)
   * Objects and traits (Big abstractions.)
 
-!SLIDE left
+
+
+
+!NOTES
 # Scala = Pragmatic
 
   * Immutable / pure encouraged.
-  * Mutation  / impure where you need it.
+  * Mutation  / impure where you need it. -->
 
 !SLIDE
 ``` text/x-scala

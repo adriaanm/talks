@@ -1,5 +1,6 @@
 .deck-container {
-  font-family: "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font: "Helvetica Neue", "Helvetica", sans-serif;
   font-size: 1.25em;
   background: #fff;
 }
@@ -48,7 +49,7 @@
   color: #fff;
 }
 .deck-container a, .deck-container a:hover, .deck-container a:focus, .deck-container a:active, .deck-container a:visited {
-  color: #c00;
+  color: #A10A00;
   text-decoration: none;
 }
 .deck-container a:hover, .deck-container a:focus {

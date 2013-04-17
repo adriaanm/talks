@@ -67,7 +67,7 @@
 }
 
 
-.slide.left h1 h2 h3 h4 div ul li content {
+.slide.left .content > * {
   -webkit-box-align: left;
   -moz-box-align: left;
   -ms-box-align: left;

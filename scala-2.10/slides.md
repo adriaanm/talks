@@ -11,7 +11,7 @@
 
 # Scala
 
-## Simple language.
+## Simple.
 
 !SLIDE center
 
@@ -19,11 +19,12 @@
 
 ## I'm serious.
 
+
 !SLIDE left
 # Scala = Unifier
 
-  * Syntax: concise, regular & flexible.  (Experiment!)
-  * Types: checked & inferred statically. (Don't worry.)
+  * Experimentation
+  * Large-scala^He development
 
 !SLIDE left
 # Scala = Unifier
@@ -32,7 +33,7 @@
   * Objects and traits (Big abstractions.)
 
 !SLIDE left
-# Scala = Unifier
+# Scala = Pragmatic
 
   * Immutable / pure encouraged.
   * Mutation  / impure where you need it.

@@ -42,8 +42,10 @@
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   color: #aaa;
-  margin-top: 40%;
-  float: bottom;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  margin-left:-22rem;
 }
 
 .slide.intro h4 a {

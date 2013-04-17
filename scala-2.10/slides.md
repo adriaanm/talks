@@ -10,41 +10,104 @@
 ### **ScalaDays13SFScala**
 ### 20% discount
 ### June 10th-12th 2013, NYC
-
-!SLIDE center
+	
+!SLIDE
 # Scala
 ## Simple.
 
-!SLIDE center
+!SLIDE
 # Scala
 ## I'm serious.
 
-!SLIDE center
+!SLIDE
 # Scala
 ## I'll be convincing.
 
-!SLIDE left
-# Scala = Unifier
-
-  * Experimentation
-  * Large-scala^He development
-
-!SLIDE left
+!SLIDE
 # Scala = Unifier
 
   * Functions (Small abstractions.)
   * Objects and traits (Big abstractions.)
 
 
+!SLIDE
+# Scala = Unifier
 
+  * Experimentation
+  * Large-scala`^H`e development
+
+!SLIDE
+# Experimenting
+``` text/x-scala
+println("")
+```
+
+!SLIDE top
+# Behind the scenes
+``` text/x-scala
+import unfiltered.netty.websockets._
+
+val sockets = ListBuffer.empty[WebSocket]
+WebSocketServer("/socket/repl", 8080) {
+  case Open(s) => sockets += s
+  case Message(s, Text(str)) =>
+    val resp = interpret(str)
+    sockets foreach (_.send(resp))
+} run ()
+```
+
+!SLIDE top
+# Behind the scenes
+``` text/x-scala
+val interpreter = new IMain(settings)
+val completion  = new JLineCompletion(interpreter)
+
+def interpret(data: String): String = {
+  data.split(":", 2) match {
+    case Array("run", source) =>
+      util.stringFromStream { ostream =>
+        Console.withOut(ostream) {
+          interpreter.interpret(source) } }
+    case Array(rx"""complete@(\d*)${I(pos)}""", source) =>
+      // handle completion at position $pos
+  }
+}
+```
+
+!SLIDE
+# Scala = Unifier
+## 
+
+``` text/x-scala
+implicit class RContext(sc: StringContext) {
+  def rx = new Regex(
+    sc.parts.mkString(""), 
+    sc.parts.tail.map(_ => "x"): _*
+  )
+}
+
+object I { def unapply(x: String) = Try { x.toInt } toOption }
+
+case Array(rx"""complete@(\d*)${I(pos)}""", source) =>
+```
 
 !NOTES
+this is the unifier of the talk
+implicit classes
+value classes
+string interpolators
+patmat & objects
+macros (printf-style validation)
+ 
+ 
+ 
+!NOTES 
 # Scala = Pragmatic
 
   * Immutable / pure encouraged.
   * Mutation  / impure where you need it. -->
 
-!SLIDE
+!NOTES
 ``` text/x-scala
 import concurrent._; import ExecutionContext.Implicits.global
 var y = 0

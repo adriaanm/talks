@@ -4,6 +4,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       dontAlignCalls = parserConfig.dontAlignCalls,
       keywords = parserConfig.keywords || {},
       builtin = parserConfig.builtin || {},
+      specialKeywords = parserConfig.specialKeywords || {},
       blockKeywords = parserConfig.blockKeywords || {},
       atoms = parserConfig.atoms || {},
       hooks = parserConfig.hooks || {},
@@ -24,7 +25,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     }
     if (/[\[\]{}\(\),;\:\.]/.test(ch)) {
       curPunc = ch;
-      return null;
+      return "bracket";
     }
     if (/\d/.test(ch)) {
       stream.eatWhile(/[\w\.]/);
@@ -46,6 +47,9 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     }
     stream.eatWhile(/[\w\$_]/);
     var cur = stream.current();
+    if (specialKeywords.propertyIsEnumerable(cur)) {
+      return "keyword-special";
+    }
     if (keywords.propertyIsEnumerable(cur)) {
       if (blockKeywords.propertyIsEnumerable(cur)) curPunc = "newstatement";
       return "keyword";
@@ -272,6 +276,8 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "<% >: # @ "),
 
     blockKeywords: words("catch class object package do else finally for def type val var foreach if match try while trait"),
+
+    specialKeywords: words("var "),
 
     builtin: words(
       /* package scala */

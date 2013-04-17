@@ -23,7 +23,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       state.tokenize = tokenString(ch);
       return state.tokenize(stream, state);
     }
-    if (/[\[\]{}\(\),;\:\.]/.test(ch)) {
+    if (/[\[\]{}\(\),;\:\.(=>)]/.test(ch)) {
       curPunc = ch;
       return "bracket";
     }
@@ -273,28 +273,14 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "abstract case extends final forSome " +
       "implicit import lazy new null override private protected return " +
       "sealed super this throw try while with yield _ : = => <- <: " +
-      "<% >: # @ "),
+      "<% >: # @ "+
+      "catch class object package do else finally for def type val if match try while trait "),
 
-    blockKeywords: words("catch class object package do else finally for def type val var foreach if match try while trait"),
+    blockKeywords: words("catch class object package do else finally for def type val foreach if match try while trait "),
 
     specialKeywords: words("var "),
 
-    builtin: words(
-      /* package scala */
-      "assert assume require print println printf readLine readBoolean readByte readShort " +
-      "readChar readInt readLong readFloat readDouble " +
-
-      "AnyVal App Application Array BufferedIterator BigDecimal BigInt Char Console Either " +
-      "Enumeration Equiv Error Exception Fractional Function IndexedSeq Integral Iterable " +
-      "Iterator List Map Numeric Nil NotNull Option Ordered Ordering PartialFunction PartialOrdering " +
-      "Product Proxy Range Responder Seq Serializable Set Specializable Stream StringBuilder " +
-      "StringContext Symbol Throwable Traversable TraversableOnce Tuple Unit Vector :: #:: " +
-
-      /* package java.lang */
-      "Boolean Byte Character CharSequence Class ClassLoader Cloneable Comparable " +
-      "Compiler Double Exception Float Integer Long Math Number Object Package Pair Process " +
-      "Runtime Runnable SecurityManager Short StackTraceElement StrictMath String " +
-      "StringBuffer System Thread ThreadGroup ThreadLocal Throwable Triple Void"),
+    builtin: words("assert assume require ??? "),
 
     atoms: words("true false null"),
     hooks: {

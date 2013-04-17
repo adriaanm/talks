@@ -9,7 +9,7 @@
 .cm-s-default span.cm-comment { color: #6900a1; }
 .cm-s-default span.cm-atom { color: #845dc4; }
 .cm-s-default span.cm-number, .cm-s-default span.cm-attribute { color: #ffd500; }
-.cm-s-default span.cm-keyword { color: #599eff; }
+.cm-s-default span.cm-keyword { color: gray; }
 .cm-s-default span.cm-keyword-special { color: red; }
 .cm-s-default span.cm-string { color: #37f14a; }
 .cm-s-default span.cm-meta { color: #7678e2; }
@@ -19,5 +19,5 @@
 .cm-s-default span.cm-bracket { color: gray; }
 .cm-s-default span.cm-comment { color: #6900a1; }
 .cm-s-default span.cm-builtin, .cm-s-default span.cm-special { color: #ff9e59; }
-.cm-s-default span.cm-operator {color: #92A75C;}
+/*.cm-s-default span.cm-operator {color: #92A75C;}*/
 

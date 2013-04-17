@@ -98,7 +98,7 @@ html {
 .deck-container ul, .deck-container ol {
   margin-left: 2em;
   vertical-align: top;
-  line-height: 3rem;
+  line-height: 3rem;  
 }
 .deck-container ol {
   list-style-type: decimal;

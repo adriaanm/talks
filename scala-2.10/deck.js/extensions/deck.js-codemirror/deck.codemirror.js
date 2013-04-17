@@ -39,10 +39,11 @@
       theme : "default",
       indentUnit : 1,
       indentWithTabs : false,
+      // extraKeys: {"Ctrl-Space": "autocomplete"}, // TODO: upgrade to code mirror 3 and implement scala completion
       runnable : true
     }
   });
-  
+
   // flag to indicate that we are currently in the editor. Required to stop keypress
   // propagation to all other extensions.
   var inEditor = false;
@@ -130,6 +131,7 @@
         // if this is a textarea just use the codemirror shorthand.
         if (codeblock.get(0).nodeName.toUpperCase() === "TEXTAREA") {
           editor = CodeMirror.fromTextArea(codeblock[0], options);
+          // initializeCompletion(CodeMirror);
         } else {
           // else codemirror the element's content and attach to element parent. 
           var parent  = codeblock.parent();

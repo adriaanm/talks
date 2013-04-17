@@ -26,6 +26,16 @@
   * Functions (small abstractions)
   * Objects and traits (big abstractions)
 
+!SLIDE left
+# Scala = Unifier
+
+  * Type inference
+  * Value inference (`implicit val`)
+  * Here be (cool) dragons
+     * specs, shapeless, scalaz,...
+     * [paper] fighting bitrot with types
+     * [paper] type classes as objects and implicits
+
 
 !SLIDE
 # Scala = Unifier
@@ -180,6 +190,15 @@ def safeBottles(n: Int)      = f"$n%d bottles of beer"
 def brokenBottles(n: Double) = f"$n%d bottles of beer"
 ```
 
+!NOTES
+this is the unifier of the talk
+implicit classes
+value classes
+string interpolators
+patmat & objects
+macros (printf-style validation)
+
+
 !SLIDE left
 # String interpolation
 
@@ -192,6 +211,7 @@ def brokenBottles(n: Double) = f"$n%d bottles of beer"
 # Desugaring interpol
 
 ``` text/x-scala
+// def bottles(n: String) = s"$n bottles of beer"
 def bottles(n: String) = StringContext("", " bottles of beer").s(n)
 ```
 
@@ -215,7 +235,7 @@ There's a [macro](https://github.com/scala/scala/blob/master/src/compiler/scala/
 
 ``` text/x-scala
 case class StringContext(parts: String*) {
-  // check that types, number of args correspond to formatter in parts
+  // check that types, number of `args` correspond to formatter in `parts`
   def f(args: Any*): String = macro macro_StringInterpolation_f
 }
 ```
@@ -235,86 +255,133 @@ case class StringContext(parts: String*) {
 
 !SLIDE
 # Interpol & patmat
-### Sure
+### Sure, let's dissect
 
 ``` text/x-scala
 val Pattern = r"""\d* bottles"""
 
 "10 bottles" match {
-  case Pattern => "ok!"
+  case Pattern() => "ok!"
 }
 ```
 
   * Interpolated strings are first-class.
   * No need to first put it in a `val`.
-    * Uniformity ~~> simplicity
+    * Uniformity ~> simplicity
+  * If we can make this work, so will the original
 
 !SLIDE
 # Interpol & patmat
-### Certainly seems doable
+### Desugaring the extractor
 
 ``` text/x-scala
 val Pattern = r"""\d* bottles"""
 
-Pattern.unapply("10 bottles") match {
-  case true => "ok!"
+Pattern.unapplySeq("10 bottles") match {
+  case Some(_) => "ok!"
 }
 ```
+
+  * `unapplySeq` generalizes `unapply` <br> to variable number of subpatterns
 
 
 !SLIDE
 # Interpol & patmat
+### Desugaring interpol
+
+``` text/x-scala
+val Pattern = StringContext("""\d* bottles""").r
+```
+
+### Problem reduced
+
+  * add a method `r` to `StringContext`
+  * `r` returns an extractor with `unapplySeq` method
+
+!SLIDE
+# `implicit` meets `class`
+
 ``` text/x-scala
 implicit class RContext(sc: StringContext) {
-  def r = new util.matching.Regex(
+ def r = new util.matching.Regex(
     sc.parts.mkString(""), 
     sc.parts.tail.map(_ => "x"): _*
   )
-  def r() = r
 }
-
-val r"""(\d*)$n bottles""" = "10 bottles"
 ```
 
-!NOTES
-case r"""(\d*)$n bottles""" => n
-
-
-
-!SLIDE left
-# Scala = Unifier
-
-  * Value inference (implicits)
-  * Type inference
-  * Here be (cool) dragons
-     * specs, shapeless, scalaz,...
-     * fighting bitrot with
+  * `implicit class` encapsulates<br>best practice implicit conversions
+  * before, only `implicit` `val` or `def`
+    * `y no implicit class!?`
 
 
 !SLIDE
-# Scala = Unifier
-### implicit meets class
+# Interpol & patmat
 
-  * implicit 
+``` text/x-scala
+implicit class RContext(sc: StringContext) {
+ def r = new util.matching.Regex(
+    sc.parts.mkString(""), 
+    sc.parts.tail.map(_ => "x"): _*
+  )
+}
 
+val n = "10 bottles" match { 
+ case r"""(\d*)$n bottles""" => n 
+}
+```
 
+!SLIDE
+# Supreme thrift
 
+``` text/x-scala
+val r"""(\d*)${I(n)} bottles""" = "10 bottles"
+```
 
+Note: `n` is an `Int`!
 
 !SLIDE
 # Interpol & patmat
 Cool applications/articles:
+
   * [Quasi quotes](http://docs.scala-lang.org/overviews/macros/quasiquotes.html)
   * [From Kiama team](http://hootenannylas.blogspot.com.au/2013/02/pattern-matching-with-string.html)
 
 
-!NOTES
-this is the unifier of the talk
-implicit classes
-value classes
-string interpolators
-patmat & objects
-macros (printf-style validation)
+!SLIDE
+# Scala 2.10 got bigger
+## Simple?
+
+!SLIDE
+# Scala 2.10 got bigger
+## Complex?
+
+!SLIDE
+# Scala 2.10 got bigger
+## Complicated?
+
+
+!SLIDE left
+# Simplicity
+
+  * New feature = investment
+  * Make it count
+  * Simplicity through uniformity
+  * Not bolted on, but fused with the core
+
+
+!SLIDE left
+# Standing on a simple core
+
+  * Simple yet sophisticated core
+  * Many cool manifestations
+  * Many in libraries
+  * Many by you
+
+
+!SLIDE
+# Scala 2.10 got bigger
+## As a community, find our voice
 
 
 
@@ -339,46 +406,8 @@ var y = 0
 Future { y = 1 } ; Future { y = 2 }
 ```
 
-!SLIDE left
-# Scala = Unifier
 
-  * Patterns (case classes)
-  * Objects  (extractors)
 
 
 !SLIDE
-# Scala 2.10 got bigger
-## Simple?
-
-!SLIDE
-# Scala 2.10 got bigger
-## Complex?
-
-!SLIDE left
-# Scala 2.10 got bigger
-## Complicated?
-
-!SLIDE left
-# Scala 2.10 got bigger
-## Sophisticated?
-
-!SLIDE left
-# Scala 2.10 got bigger
-## Leave it to the philosophers.
-
-!SLIDE left
-# Scala 2.10 got bigger
-## As a community, finding our voice.
-
-
-!SLIDE left
-
-# Some sample code
-
-
-!NOTES
-
- * a note
-
-!SLIDE
-
+#

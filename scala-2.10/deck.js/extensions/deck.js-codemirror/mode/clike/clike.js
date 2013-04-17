@@ -274,7 +274,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       "implicit import lazy new null override private protected return " +
       "sealed super this throw try while with yield _ : = => <- <: " +
       "<% >: # @ "+
-      "catch class object package do else finally for def type val if match try while trait "),
+      "catch class object package do else finally for def type val if match try while trait macro "),
 
     blockKeywords: words("catch class object package do else finally for def type val foreach if match try while trait "),
 

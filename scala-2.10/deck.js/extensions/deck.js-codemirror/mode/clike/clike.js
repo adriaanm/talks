@@ -278,7 +278,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
 
     blockKeywords: words("catch class object package do else finally for def type val foreach if match try while trait "),
 
-    specialKeywords: words("var "),
+    specialKeywords: words("var Dynamic "),
 
     builtin: words("assert assume require ??? "),
 

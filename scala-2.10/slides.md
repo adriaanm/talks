@@ -10,7 +10,21 @@
 ### **ScalaDays13SFScala**
 ### 20% discount
 ### June 10th-12th 2013, NYC
-	
+
+!SLIDE left
+# Hi!
+
+  * Thank you, [contributors!](https://github.com/scala/scala/contributors)
+  * Some numbers
+     * Mailing list members: `>`4K
+     * Issue tracker
+        * `>`3K registered users (2K not on mailing list)
+        * `>`7K reported issues
+          * top-11: 25%, top-55: 50%, top-1100: 95%
+        * 5 issues/day
+     * GitHub
+        * Close 6 PR/day
+
 !SLIDE
 # Scala
 ## Simple
@@ -20,21 +34,12 @@
 ## I'm serious.
 
 
+
 !SLIDE
 # Scala = Unifier
 
   * Functions (small abstractions)
   * Objects and traits (big abstractions)
-
-!SLIDE left
-# Scala = Unifier
-
-  * Type inference
-  * Value inference (`implicit val`)
-  * Here be (cool) dragons
-     * specs, shapeless, scalaz,...
-     * [paper] fighting bitrot with types
-     * [paper] type classes as objects and implicits
 
 
 !SLIDE
@@ -104,7 +109,7 @@ def interpret(data: String): String = {
   * Feature Imports ([SIP-18](https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit))
   * Futures and Promises ([SIP-14](http://docs.scala-lang.org/sips/pending/futures-promises.html))
   * Dependent method types
-     * (cake factory methods)
+     * Factory methods for cakes.
   * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
 
 !SLIDE left
@@ -314,6 +319,15 @@ implicit class RContext(sc: StringContext) {
   * before, only `implicit` `val` or `def`
     * `y no implicit class!?`
 
+!SLIDE left
+# Scala = Unifier
+
+  * Type inference
+  * Value inference (`implicit val`)
+  * Here be (cool) dragons
+     * specs, shapeless, scalaz,...
+     * [paper] fighting bitrot with types
+     * [paper] type classes as objects and implicits
 
 !SLIDE
 # Interpol & patmat
@@ -360,6 +374,10 @@ Cool applications/articles:
 # Scala 2.10 got bigger
 ## Complicated?
 
+!SLIDE
+# Scala 2.10 got bigger
+## Simplistic?
+
 
 !SLIDE left
 # Simplicity
@@ -371,7 +389,7 @@ Cool applications/articles:
 
 
 !SLIDE left
-# Standing on a simple core
+# Standing on simple core
 
   * Simple yet sophisticated core
   * Many cool manifestations
@@ -379,35 +397,170 @@ Cool applications/articles:
   * Many by you
 
 
-!SLIDE
-# Scala 2.10 got bigger
-## As a community, find our voice
+!SLIDE 
+# Scala = Pragmatic
 
+  * Balance
+    * Java interop
+    * Legacy
+    * Desire for new toys
+  * With
+    * Make programming fun
+    * Sanity
+    * Simplicity
 
-
-
-typesafe proxy
-https://gist.github.com/paulp/5265030
-
-typesafe dictionary:
-???
-
- 
-!NOTES 
+!SLIDE 
 # Scala = Pragmatic
 
   * Immutable / pure encouraged.
-  * Mutation  / impure where you need it. -->
-
-!NOTES
-``` text/x-scala
-import concurrent._; import ExecutionContext.Implicits.global
-var y = 0
-Future { y = 1 } ; Future { y = 2 }
-```
-
-
+  * Mutation  / impure where you need it.
 
 
 !SLIDE
-#
+# Asynch meets Mutation
+## Because we can
+
+``` text/x-scala
+import concurrent._; import ExecutionContext.Implicits.global
+
+var y = 0
+
+Future { y = 1 } ; Future { y = 2 }
+```
+
+## doesn't mean you should
+### (this generalizes)
+
+!SLIDE
+# Asynchronicity
+## Futures
+
+``` text/x-scala
+def slowCalcFuture: Future[Int] = ...
+val future1 = slowCalcFuture
+val future2 = slowCalcFuture
+def combined: Future[Int] = for {
+  r1 <- future1
+  r2 <- future2
+} yield r1 + r2
+```
+
+!SLIDE
+# Asynchronicity
+## [scala-async](https://github.com/scala/async)
+
+``` text/x-scala
+def combined: Future[Int] = async {
+  val future1 = slowCalcFuture
+  val future2 = slowCalcFuture
+  await(future1) + await(future2)
+}
+```
+
+!SLIDE
+# Types are there for you
+
+  * `Future[T]` vs `T`
+    * important difference
+    * `Future[T]` keeps latency,<br>error handling on your mind
+
+
+!SLIDE
+# `import language._`
+## SIP-18 helps you KISS
+
+  * Help you identify Good Parts for
+    * your project, and
+    * your team,
+    * at this time.
+  * Desirable subset of Scala evolves.
+
+!SLIDE
+# `import language._`
+
+  * postfixOps
+  * reflectiveCalls
+  * implicitConversions
+  * existentials
+  * higherKinds
+  * dynamics
+  * experimental.macros
+
+!SLIDE
+# `Dynamic`
+
+``` text/x-scala
+class AnythingGoes extends Dynamic {
+  def applyDynamic(selection: String)(args: Any*): Any =
+    println(s"You called $selection${args.mkString("(", ",", ")")}. Thanks!")
+}
+```
+
+!NOTES
+import language.dynamics
+(new AnythingGoes).notInspired("sorry")
+
+!SLIDE
+# `Dynamic` meets `macro`
+## By @paulp
+
+<pre>
+scala> val dict = Dict.dict
+dict: Dict = Dict(88629 words, 103040 definitions)
+
+// safe, unsafe, it's all the same if we know what we're doing
+scala> dict.unsafeOracle.flibbertigibbet
+res1: Definitions = 
+flibbertigibbet
+Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
+
+scala> dict.safeOracle.flibbertigibbet
+res2: Definitions = 
+flibbertigibbet
+Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
+</pre>
+
+!SLIDE
+# `Dynamic` meets `macro`
+## By @paulp
+
+<pre>
+// it is when we make up supposed "crazy, made-up" words that we
+// enjoy the difference
+scala> dict.unsafeOracle.bippy
+res3: Definitions = Runtime Vocabulary Failure: No Such Word
+
+scala> dict.safeOracle.bippy
+<console>:9: error: not found: "bippy"
+              dict.safeOracle.bippy
+                   ^
+</pre>
+
+!NOTES
+typesafe proxy
+https://gist.github.com/paulp/5265030
+
+
+
+!SLIDE left
+# Scala 2.11
+
+  * Smaller
+    * Modularizing std lib & compiler
+  * Faster
+    * Better optimizer (@jamesiry)
+    * Incremental compiler (@gkossakowski)
+    * Shorter compile times
+  * Stabler
+    * Mature 2.10's experimental features
+
+<p/>
+(BTW, default target will be Java 6)
+
+!SLIDE
+# Thanks!
+
+# Questions!
+
+
+

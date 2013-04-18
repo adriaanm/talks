@@ -65,18 +65,3 @@
 
 .slide.top h1 {
 }
-
-
-.slide.left .content > * {
-  -webkit-box-align: left;
-  -moz-box-align: left;
-  -ms-box-align: left;
-  box-align: left;
-  -webkit-box-pack: left;
-  -moz-box-pack: left;
-  -ms-box-pack: left;
-  box-pack: left;
-}
-
-
-

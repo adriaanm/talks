@@ -40,7 +40,9 @@
   * Reflection (experimental, [overview](http://docs.scala-lang.org/overviews/reflection/overview.html))
   * Macros (experimental, [SIP-16](http://docs.scala-lang.org/overviews/macros/overview.html))
 
-!SLIDE left 
+!SLIDE left top
+
+# Strings
 
   Our journey starts with a humble string.
 
@@ -52,28 +54,38 @@
 
 This presentation is __executable__.
 
-```
-sudo gem install keydown # optional
-git clone git@github.com:retronym/talks.git
-git clone -b topic/play-keydown git@github.com:retronym/replhtml.git && cd replhtml
-$EDITOR src/main/resources/application.conf
-sbt run
-open http://localhost:8080
-```
+Clone and run: [git.io/Qw-Krw](http://git.io/Qw-Krw)
 
-!SLIDE left
+<p/>
+Brought to you by <img src="images/play.png" style="display: inline; vertical-align: middle; margin-top: 30px; margin-right: 10px" height="70px"/> and
+<img src="images/ducttape.png" style="display: inline; ; vertical-align: middle; margin-top: 30px" height="120px"/>
+
+
+
+!SLIDE left top
+
+# Strings
 
 > In the Age of the Internet, strings are the new integers: everyone's using them for everything.
 
 [Henney, 2000](http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2001/cexp1911/henney/henney.htm)
 
-!SLIDE left
+<span style="font-size: 0.7em">Clone & Run [git.io/Qw-Krw](http://git.io/Qw-Krw)</span>
+
+!SLIDE left top
+
+# Strings
 
 A dozen years later, and they are still as popular.
 
+<img src="images/text.png" height="70%"/>
+
+!SLIDE left top
+# String Interpolation
+
 ``` text/x-scala
 val greetee = "flatmap(Oslo)"
-"Hello, "+greetee+"!"
+"Hello, "+greetee+"!" // yuck
 ```
 
 Scala has `"regular"` and `"""multiline"""` strings.
@@ -82,39 +94,42 @@ How about `"$interpolation"`?
 
 !SLIDE left top
 
-# Why Martin hates String Interpolation.
+# Historical Detour
+## Why Martin hates String Interpolation.
 
 <img src="images/keyboard.png" height="600px"/>
 
-!SLIDE left
+!SLIDE left top
+# Historical Detour
 
 > On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just __looks__ ugly. And it's so hard to __type__!
 
-Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>
-
-!SLIDE left
-
-> And then it hit me. Maybe __Swiss keyboards__ have more __convenient__ access to the `"+` and `+"` key combinations.
-
-Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>
-
-!SLIDE left
-
-> But there you go: once again, Martin was right. Scala really doesn't need better string interpolation. I just need a __more-Swiss keyboard__.
-
-[Jorge Ortiz scala-debate 2008](http://www.scala-lang.org/node/2025)
+<img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/> Jorge Ortiz
 
 !SLIDE left top
-# SIP-11 String Interp.
+# Historical Detour
+
+> And then it hit me. Maybe __Swiss keyboards__ have more __convenient__ access to the `"+` and `+"` key combinations.
+>
+> Martin was right. Scala really doesn't need better string interpolation. I just need a __more-Swiss keyboard__.
+
+<img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>Jorge Ortiz [scala-debate 2008](http://www.scala-lang.org/node/2025)
+
+!SLIDE left top
+# String Interpolation
 
 Actually, we just needed a take on interpolation that __feels right__ for Scala.
+
+Smarts in the library, not the language.
+ <p/>
 
 ``` text/x-scala
 val greetee = "flatMap(Oslo)"
 s"Hello, $greetee!"
 ```
 
-!SLIDE left
+!SLIDE left top
+# String Interpolation
 
 String interpolation is a rewriting rule*
 
@@ -127,8 +142,8 @@ StringContext("Hello ", "!").s(greetee)
 
 *just like `for` comprehesions.
 
-
-!SLIDE left
+!SLIDE left top
+# String Interpolation
 
 That was plain `s`-ubstitution.
 
@@ -141,7 +156,8 @@ f"Pi = ${math.Pi}%.4f"
 (Use `${<expr>}` to interpolate expressions.)
 
 
-!SLIDE left
+!SLIDE left top
+# String Interpolation
 
 `f` is type-aware.
 
@@ -153,7 +169,8 @@ Want to know how?
 
 Come to my macro workshop!
 
-!SLIDE left
+!SLIDE left top
+# String Interpolation
 
 This feature is __extensible__.
 
@@ -334,8 +351,8 @@ new dyno().foo(a = 1).bar(true).stack
    * Querying JSON
    * Calling web services
    * Cute Reflection APIs
-
-But can we agree __not__ to emulate ActiveRecord's<p/> [`find_by_user_name_and_password`](https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846)?
+<p/>
+But can we agree __not__ to emulate ActiveRecord's<p/> [`find_by_name_and_age`](https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846)?
 
 !SLIDE left top
 # What I haven't covered
@@ -343,7 +360,7 @@ But can we agree __not__ to emulate ActiveRecord's<p/> [`find_by_user_name_and_p
  - `scala.concurrent._`
    - scala-async
  - Reflection / Macros (experimental)
-
+ - Retooled bytecode emitter
 !SLIDE left top
 # 2.11
 

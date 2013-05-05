@@ -105,9 +105,11 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>Strings</h1>
+        
         <p>  Our journey starts with a humble string.</p>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>"Hello, flatMap(Oslo)!"</textarea>
@@ -118,18 +120,46 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <blockquote><p>In the Age of the Internet, strings are the new integers: everyone's using them for everything.</p></blockquote>
+        <p>This presentation is <strong>executable</strong>.</p>
         
-        <p><a href="http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2001/cexp1911/henney/henney.htm">Henney, 2000</a></p>
+        <p>Clone and run: <a href="http://git.io/Qw-Krw">git.io/Qw-Krw</a></p>
+        
+        <p><p/>
+        Brought to you by <img src="images/play.png" style="display: inline; vertical-align: middle; margin-top: 30px; margin-right: 10px" height="70px"/> and
+        <img src="images/ducttape.png" style="display: inline; ; vertical-align: middle; margin-top: 30px" height="120px"/></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>Strings</h1>
+        
+        <blockquote><p>In the Age of the Internet, strings are the new integers: everyone's using them for everything.</p></blockquote>
+        
+        <p><a href="http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2001/cexp1911/henney/henney.htm">Henney, 2000</a></p>
+        
+        <p><span style="font-size: 0.7em">Clone &amp; Run <a href="http://git.io/Qw-Krw">git.io/Qw-Krw</a></span></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Strings</h1>
+        
         <p>A dozen years later, and they are still as popular.</p>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatmap(Oslo)"&#x000A;"Hello, "+greetee+"!"</textarea>
+        <p><img src="images/text.png" height="70%"/></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatmap(Oslo)"&#x000A;"Hello, "+greetee+"!" // yuck</textarea>
     </p>
         
         <p>Scala has <code>"regular"</code> and <code>"""multiline"""</code> strings.</p>
@@ -141,54 +171,58 @@
     <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Why Martin hates String Interpolation.</h1>
+        <h1>Historical Detour</h1>
+        
+        <h2>Why Martin hates String Interpolation.</h2>
         
         <p><img src="images/keyboard.png" height="600px"/></p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <blockquote><p>On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just <strong>looks</strong> ugly. And it's so hard to <strong>type</strong>!</p></blockquote>
-        
-        <p>Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <blockquote><p>And then it hit me. Maybe <strong>Swiss keyboards</strong> have more <strong>convenient</strong> access to the <code>"+</code> and <code>+"</code> key combinations.</p></blockquote>
-        
-        <p>Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <blockquote><p>But there you go: once again, Martin was right. Scala really doesn't need better string interpolation. I just need a <strong>more-Swiss keyboard</strong>.</p></blockquote>
-        
-        <p><a href="http://www.scala-lang.org/node/2025">Jorge Ortiz scala-debate 2008</a></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>SIP-11 String Interp.</h1>
+        <h1>Historical Detour</h1>
+        
+        <blockquote><p>On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just <strong>looks</strong> ugly. And it's so hard to <strong>type</strong>!</p></blockquote>
+        
+        <p><img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/> Jorge Ortiz</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Historical Detour</h1>
+        
+        <blockquote><p>And then it hit me. Maybe <strong>Swiss keyboards</strong> have more <strong>convenient</strong> access to the <code>"+</code> and <code>+"</code> key combinations.</p>
+        
+        <p>Martin was right. Scala really doesn't need better string interpolation. I just need a <strong>more-Swiss keyboard</strong>.</p></blockquote>
+        
+        <p><img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>Jorge Ortiz <a href="http://www.scala-lang.org/node/2025">scala-debate 2008</a></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
         
         <p>Actually, we just needed a take on interpolation that <strong>feels right</strong> for Scala.</p>
+        
+        <p>Smarts in the library, not the language.
+         <p/></p>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>String Interpolation</h1>
+        
         <p>String interpolation is a rewriting rule*</p>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"&#x000A;&#x000A;StringContext("Hello ", "!").s(greetee)</textarea>
@@ -198,9 +232,11 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>String Interpolation</h1>
+        
         <p>That was plain <code>s</code>-ubstitution.</p>
         
         <p>We can also <code>f</code>-ormat:</p>
@@ -212,9 +248,11 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>String Interpolation</h1>
+        
         <p><code>f</code> is type-aware.</p>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>f"Pi = ${false}%.4f"</textarea>
@@ -226,9 +264,11 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>String Interpolation</h1>
+        
         <p>This feature is <strong>extensible</strong>.</p>
         
         <p>Enrich <code>StringContext</code> with new interpolators.</p>
@@ -423,7 +463,8 @@
         </ul>
         
         
-        <p>But can we agree <strong>not</strong> to emulate ActiveRecord's<p/> <a href="https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846"><code>find_by_user_name_and_password</code></a>?</p>
+        <p><p/>
+        But can we agree <strong>not</strong> to emulate ActiveRecord's<p/> <a href="https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846"><code>find_by_name_and_age</code></a>?</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -440,6 +481,7 @@
         </ul>
         </li>
         <li>Reflection / Macros (experimental)</li>
+        <li>Retooled bytecode emitter</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>

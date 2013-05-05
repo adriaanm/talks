@@ -34,61 +34,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='days slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><a href="http://scaladays.org">Scala Days</a></h1>
-        
-        <h3>June 10th-12th 2013, NYC</h3>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Hi!</h1>
-        
-        <ul>
-        <li>Thank you, <a href="https://github.com/scala/scala/contributors">contributors!</a></li>
-        <li>Some numbers
-        
-        <ul>
-        <li>Mailing list members: <code>&gt;</code>4K</li>
-        <li>Issue tracker
-        
-        <ul>
-        <li><code>&gt;</code>3K registered users (2K not on mailing list)</li>
-        <li><code>&gt;</code>7K reported issues
-        
-        <ul>
-        <li>top-11: 25%, top-55: 50%, top-1100: 95%</li>
-        </ul>
-        </li>
-        <li>5 issues/day</li>
-        </ul>
-        </li>
-        <li>GitHub
-        
-        <ul>
-        <li>Close 6 PR/day</li>
-        </ul>
-        </li>
-        </ul>
-        </li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala</h1>
-        
-        <h2>Welcome to Scala 2.10!</h2>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>two dot ten</h1>
@@ -113,7 +59,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Highlights</h1>
@@ -127,7 +73,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Highlights</h1>
@@ -146,7 +92,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Highlights</h1>
@@ -192,7 +138,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Why Martin hates String Interpolation.</h1>
@@ -201,34 +147,34 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <blockquote><p>On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just <strong>looks</strong> ugly. And it's so hard to <strong>type</strong>!</p></blockquote>
         
-        <p>Jorge Ortiz. <img src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
+        <p>Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <blockquote><p>And then it hit me. Maybe <strong>Swiss keyboards</strong> have more <strong>convenient</strong> access to the <code>"+</code> and <code>+"</code> key combinations.</p></blockquote>
         
-        <p>Jorge Ortiz. <img src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
+        <p>Jorge Ortiz <img style="display: inline; vertical-align: middle" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <blockquote><p>But there you go: once again, Martin was right. Scala really doesn't need better string interpolation. I just need a more-Swiss keyboard.</p></blockquote>
+        <blockquote><p>But there you go: once again, Martin was right. Scala really doesn't need better string interpolation. I just need a <strong>more-Swiss keyboard</strong>.</p></blockquote>
         
         <p><a href="http://www.scala-lang.org/node/2025">Jorge Ortiz scala-debate 2008</a></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>SIP-11 String Interp.</h1>
@@ -240,19 +186,19 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <p>String interpolation is a rewriting rule*</p>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"&#x000A;&#x000A;StringContext("Hello", "!").s(greetee)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"&#x000A;&#x000A;StringContext("Hello ", "!").s(greetee)</textarea>
     </p>
         
         <p>*just like <code>for</code> comprehesions.</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <p>That was plain <code>s</code>-ubstitution.</p>
@@ -266,7 +212,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <p><code>f</code> is type-aware.</p>
@@ -274,23 +220,25 @@
         <p><textarea class='code' display='none' mode='text/x-scala'>f"Pi = ${false}%.4f"</textarea>
     </p>
         
-        <p>(Want to know how? Come to my workshop!)</p>
+        <p>Want to know how?</p>
+        
+        <p>Come to my macro workshop!</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <p>This feature is <strong>extensible</strong>.</p>
         
         <p>Enrich <code>StringContext</code> with new interpolators.</p>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RichStringContext(val sc: StringContext) extends AnyVal {&#x000A;  def shouty(args: Any*) = sc.s(args: _*).toUpperCase&#x000A;}&#x000A;shouty"can anyone hear me?"</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RichStringContext&#x000A;         (val sc: StringContext) extends AnyVal {&#x000A;  def shouty(args: Any*) = sc.s(args: _*).toUpperCase&#x000A;}&#x000A;shouty"Is this thing turned on?"</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Implicit Classes</h1>
@@ -302,26 +250,26 @@
         </ul>
         
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RichStringContext(sc: StringContext) {&#x000A;  def shouty(args: Any*) = sc.s(args: _*).toUpperCase&#x000A;}&#x000A;shouty"can anyone hear me?"</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class IC(wrapped: String) {&#x000A;  def extensionMethod(a: Int) = wrapped.length + a&#x000A;}&#x000A;"".extensionMethod(0)</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Feature Imports</h1>
         
-        <p>We saw how implicit classes make best practice use of implicits convenient.</p>
+        <p>Implicit classes make best practice use of implicits convenient.</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>// maybe not such a great idea.&#x000A;implicit def str2int(s: String) = s.length</textarea>
+    </p>
         
         <p>More general implicit conversions now come with a warning.</p>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>implicit def str2int(s: String) = s.length</textarea>
-    </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Value Classes</h1>
@@ -337,7 +285,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Value Classes</h1>
@@ -347,7 +295,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Pat and Mat</h1>
@@ -356,7 +304,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>virtpatmat</h1>
@@ -375,7 +323,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Exhaustivity</h1>
@@ -388,7 +336,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Smarter Warnings</h1>
@@ -398,7 +346,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Smarter Warnings</h1>
@@ -408,648 +356,98 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Scala = Unifier</h1>
+        <h1>Public Service Announcement</h1>
         
-        <ul>
-        <li>Experimentation</li>
-        <li>Large-scala<code>^H</code>e development</li>
-        </ul>
+        <p><textarea class='code' display='none' mode='text/x-scala'>// what, no warning?&#x000A;(1, 2) match { case Seq(x) =>; case _ => }</textarea>
+    </p>
+        
+        <p>The compiler can't rule out:</p>
+        
+        <p>  <code>class Z extends (A, B) with Seq[C]</code>.</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Experimenting</h1>
+        <h1>Public Service Announcement</h1>
         
-        <h2>Queue demo effect</h2>
+        <h2>Finality is your friend</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>println("")</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>final case class T2[A, B](a: A, b: B)&#x000A;T2(1, 2) match { case Seq(x) =>; case _ => }</textarea>
+    </p>
+        
+        <p><code>scala.TupleN</code> will be final in 2.12 (deprecation is a drag.)</p>
+        
+        <p>Will be considered final for analyses under <code>-Xlint</code> in 2.11</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Dynamic</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.dynamics&#x000A;class dyno(val stack: List[String] = Nil)&#x000A;  extends Dynamic {&#x000A;  def selectDynamic(name: String) =&#x000A;    new dyno(name :: stack)&#x000A;}&#x000A;new dyno().foo.bar.baz.stack</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide top'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Behind the scenes</h1>
+        <h1>Dynamic</h1>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import unfiltered.netty.websockets._&#x000A;&#x000A;val sockets = ListBuffer.empty[WebSocket]&#x000A;WebSocketServer("/socket/repl", 8080) {&#x000A;  case Open(s) => sockets += s&#x000A;  case Message(s, Text(str)) =>&#x000A;    val resp = interpret(str)&#x000A;    sockets foreach (_.send(resp))&#x000A;} run ()</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.dynamics&#x000A;class dyno(val stack: List[String] = Nil)&#x000A;  extends Dynamic {&#x000A;&#x000A;  def applyDynamic(name: String)(args: Any*) =&#x000A;   applyDynamicNamed(name)(args.map(("<>",  _)): _*)&#x000A;&#x000A;  def applyDynamicNamed(name: String)&#x000A;                       (args: (String, Any)*) = {&#x000A;    val str = s"$name(${args.mkString(", ")})"&#x000A;    new dyno(str :: stack)&#x000A;  }&#x000A;}&#x000A;&#x000A;new dyno().foo(a = 1).bar(true).stack</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide top'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Behind the scenes</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>val interpreter = new IMain(settings)&#x000A;val completion  = new JLineCompletion(interpreter)&#x000A;&#x000A;def interpret(data: String): String = {&#x000A;  data.split(":", 2) match {&#x000A;    case Array("run", source) =>&#x000A;      util.stringFromStream { ostream =>&#x000A;        Console.withOut(ostream) {&#x000A;          interpreter.interpret(source) } }&#x000A;    case Array(r"""complete@(\d*)${I(pos)}""", source) =>&#x000A;      // handle completion at position $pos&#x000A;  }&#x000A;}</textarea>
-    </p>
-        
-        <h4><a href="https://github.com/adriaanm/replhtml/blob/master/src/main/scala/ReplMain.scala">Full code</a></h4>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>To be continued</h1>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 highlights</h1>
+        <h1>Dynamic</h1>
         
         <ul>
-        <li>Rewritten Pattern Matcher</li>
-        <li>String Interpolation (<a href="https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US">SIP-11</a>)</li>
-        <li>Value Classes (<a href="https://docs.google.com/document/d/10TQKgMiJTbVtkdRG53wsLYwWM2MkhtmdV25-NZvLLMA/edit?hl=en_US">SIP-15</a>)</li>
-        <li>Implicit Classes (<a href="http://docs.scala-lang.org/sips/pending/implicit-classes.html">SIP-13</a>)</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 highlights</h1>
+        <li>Applications:
         
         <ul>
-        <li>Feature Imports (<a href="https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit">SIP-18</a>)</li>
-        <li>Futures and Promises (<a href="http://docs.scala-lang.org/sips/pending/futures-promises.html">SIP-14</a>)</li>
-        <li>Dependent method types
-        
-        <ul>
-        <li>Factory methods for cakes.</li>
-        </ul>
-        </li>
-        <li>ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) --></li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 highlights</h1>
-        
-        <ul>
-        <li>trait Dynamic (<a href="https://docs.google.com/document/d/1XaNgZ06AR7bXJA9-jHrAiBVUwqReqG4-av6beoLaf3U/edit">SIP-17</a>)</li>
-        <li>Reflection (experimental, <a href="http://docs.scala-lang.org/overviews/reflection/overview.html">overview</a>)</li>
-        <li>Macros (experimental, <a href="http://docs.scala-lang.org/overviews/macros/overview.html">SIP-16</a>)</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Pattern matcher</h1>
-        
-        <ul>
-        <li>Rewritten from scratch</li>
-        <li>Dozen long-standing bugs fixed
-        
-        <ul>
-        <li>Favorite: <a href="https://issues.scala-lang.org/browse/SI-1133">exponential-space bytecode</a></li>
-        <li>Total: <a href="https://issues.scala-lang.org/sr/jira.issueviews:searchrequest-printable/12201/SearchRequest-12201.html?tempMax=1000">close to 100</a></li>
-        </ul>
-        </li>
-        <li>Modular, grokkable <a href="https://github.com/scala/scala/tree/2.10.x/src/compiler/scala/tools/nsc/transform/patmat">implementation</a></li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Pattern matcher</h1>
-        
-        <h3>New and improved</h3>
-        
-        <ul>
-        <li>Extractors can be extension methods</li>
-        <li>Nicer error messages via SAT solving</li>
-        <li>"Virtualized": e.g., match in the <a href="https://github.com/namin/scala/blob/topic-virt-patmat-2.10.0/test/files/run/virtpatmat_problang3.scala">probability monad</a></li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Exhausting</h1>
-        
-        <h2></h2>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>def check(x: Option[String]) = x match {&#x000A;  case Some("magic") =>&#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala = Unifier</h1>
-        
-        <ul>
-        <li>Extractors reconcile
-        
-        <ul>
-        <li>Pattern matching</li>
-        <li>OO Encapsulation</li>
-        </ul>
-        </li>
-        <li>Requires Option boxing
-        
-        <ul>
-        <li>Tackling this in 2.11</li>
-        <li>Value classes meet patmat</li>
+        <li>Querying JSON</li>
+        <li>Calling web services</li>
+        <li>Cute Reflection APIs</li>
         </ul>
         </li>
         </ul>
+        
+        
+        <p>But can we agree <strong>not</strong> to emulate ActiveRecord's<p/> <a href="https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846"><code>find_by_user_name_and_password</code></a>?</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Extractors</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>object I {&#x000A;  def unapply(x: String) = util.Try { x.toInt } toOption&#x000A;}&#x000A;&#x000A;"10" match { case I(10) => }&#x000A;&#x000A;I.unapply("10") match { case Some(10) => }</textarea>
-    </p>
-        
-        <p>(New in 2.10: <code>Try</code>, based on Twitter's com.twitter.util.)</p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>String interpolation</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>def bottles(n: String)       = s"$n bottles of beer"&#x000A;&#x000A;def safeBottles(n: Int)      = f"$n%d bottles of beer"&#x000A;&#x000A;def brokenBottles(n: Double) = f"$n%d bottles of beer"</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>String interpolation</h1>
-        
-        <ol>
-        <li> drop $-prefixed holes</li>
-        <li> pack parts in a <code>StringContext</code></li>
-        <li> call the interpolator (named in the prefix)</li>
-        <li> pass the holes as arguments</li>
-        </ol>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Desugaring interpol</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>// def bottles(n: String) = s"$n bottles of beer"&#x000A;def bottles(n: String) = StringContext("", " bottles of beer").s(n)</textarea>
-    </p>
-        
-        <p>Somewhere, in the standard library:</p>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>case class StringContext(parts: String*) {&#x000A;  def s(args: Any*): String = standardInterpolator(treatEscapes, args)&#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; macros</h1>
-        
-        <h3>Where'd my StringContext go?</h3>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>def safeBottles(n: Int) = "%d bottles of beer" format n</textarea>
-    </p>
-        
-        <p>There's a <a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L13">macro</a> for that.</p>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>case class StringContext(parts: String*) {&#x000A;  // check that types, number of `args` correspond to formatter in `parts`&#x000A;  def f(args: Any*): String = macro macro_StringInterpolation_f&#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <h3>And now... in reverse!?</h3>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>"10 bottles" match {&#x000A;  case r"""\d* bottles""" => "ok!"&#x000A;}</textarea>
-    </p>
-        
-        <h3>Can this work?</h3>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <h3>Sure, let's dissect</h3>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>val Pattern = r"""\d* bottles"""&#x000A;&#x000A;"10 bottles" match {&#x000A;  case Pattern() => "ok!"&#x000A;}</textarea>
-    </p>
+        <h1>What I haven't covered</h1>
         
         <ul>
-        <li>Interpolated strings are first-class.</li>
-        <li>No need to first put it in a <code>val</code>.
+        <li><code>scala.concurrent._</code>
         
         <ul>
-        <li>Uniformity ~> simplicity</li>
+        <li>scala-async</li>
         </ul>
         </li>
-        <li>If we can make this work, so will the original</li>
+        <li>Reflection / Macros (experimental)</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide top'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <h3>Desugaring the extractor</h3>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>val Pattern = r"""\d* bottles"""&#x000A;&#x000A;Pattern.unapplySeq("10 bottles") match {&#x000A;  case Some(_) => "ok!"&#x000A;}</textarea>
-    </p>
-        
-        <ul>
-        <li><code>unapplySeq</code> generalizes <code>unapply</code> <br> to variable number of subpatterns</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <h3>Desugaring interpol</h3>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>val Pattern = StringContext("""\d* bottles""").r</textarea>
-    </p>
-        
-        <h3>Problem reduced</h3>
-        
-        <ul>
-        <li>add a method <code>r</code> to <code>StringContext</code></li>
-        <li><code>r</code> returns an extractor with <code>unapplySeq</code> method</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>implicit</code> meets <code>class</code></h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RContext(sc: StringContext) {&#x000A; def r = new util.matching.Regex(&#x000A;    sc.parts.mkString(""), &#x000A;    sc.parts.tail.map(_ => "x"): _*&#x000A;  )&#x000A;}</textarea>
-    </p>
-        
-        <ul>
-        <li><code>implicit class</code> encapsulates<br>best practice implicit conversions</li>
-        <li>before, only <code>implicit</code> <code>val</code> or <code>def</code>
-        
-        <ul>
-        <li><code>y no implicit class!?</code></li>
-        </ul>
-        </li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala = Unifier</h1>
-        
-        <ul>
-        <li>Type inference</li>
-        <li>Value inference (<code>implicit val</code>)</li>
-        <li>Here be (cool) dragons
-        
-        <ul>
-        <li>specs, shapeless, scalaz,...</li>
-        <li>[paper] fighting bitrot with types</li>
-        <li>[paper] type classes as objects and implicits</li>
-        </ul>
-        </li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RContext(sc: StringContext) {&#x000A; def r = new util.matching.Regex(&#x000A;    sc.parts.mkString(""), &#x000A;    sc.parts.tail.map(_ => "x"): _*&#x000A;  )&#x000A;}&#x000A;&#x000A;val n = "10 bottles" match { &#x000A; case r"""(\d*)$n bottles""" => n &#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Supreme thrift</h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>val r"""(\d*)${I(n)} bottles""" = "10 bottles"</textarea>
-    </p>
-        
-        <p>Note: <code>n</code> is an <code>Int</code>!</p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Interpol &amp; patmat</h1>
-        
-        <p>Cool applications/articles:</p>
-        
-        <ul>
-        <li><a href="http://docs.scala-lang.org/overviews/macros/quasiquotes.html">Quasi quotes</a></li>
-        <li><a href="http://hootenannylas.blogspot.com.au/2013/02/pattern-matching-with-string.html">From Kiama team</a></li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 got bigger</h1>
-        
-        <h2>Simple?</h2>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 got bigger</h1>
-        
-        <h2>Complex?</h2>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 got bigger</h1>
-        
-        <h2>Complicated?</h2>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.10 got bigger</h1>
-        
-        <h2>Simplistic?</h2>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Simplicity</h1>
-        
-        <ul>
-        <li>New feature = investment</li>
-        <li>Make it count</li>
-        <li>Simplicity through uniformity</li>
-        <li>Not bolted on, but fused with the core</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Standing on simple core</h1>
-        
-        <ul>
-        <li>Simple yet sophisticated core</li>
-        <li>Many cool manifestations</li>
-        <li>Many in libraries</li>
-        <li>Many by you</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala = Pragmatic</h1>
-        
-        <ul>
-        <li>Balance
-        
-        <ul>
-        <li>Java interop</li>
-        <li>Legacy</li>
-        <li>Desire for new toys</li>
-        </ul>
-        </li>
-        <li>With
-        
-        <ul>
-        <li>Make programming fun</li>
-        <li>Sanity</li>
-        <li>Simplicity</li>
-        </ul>
-        </li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala = Pragmatic</h1>
-        
-        <ul>
-        <li>Immutable / pure encouraged.</li>
-        <li>Mutation  / impure where you need it.</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Asynch meets Mutation</h1>
-        
-        <h2>Because we can</h2>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>import concurrent._; import ExecutionContext.Implicits.global&#x000A;&#x000A;var y = 0&#x000A;&#x000A;Future { y = 1 } ; Future { y = 2 }</textarea>
-    </p>
-        
-        <h2>doesn't mean you should</h2>
-        
-        <h3>(this generalizes)</h3>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Asynchronicity</h1>
-        
-        <h2>Futures</h2>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>def slowCalcFuture: Future[Int] = ...&#x000A;val future1 = slowCalcFuture&#x000A;val future2 = slowCalcFuture&#x000A;def combined: Future[Int] = for {&#x000A;  r1 <- future1&#x000A;  r2 <- future2&#x000A;} yield r1 + r2</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Asynchronicity</h1>
-        
-        <h2><a href="https://github.com/scala/async">scala-async</a></h2>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>def combined: Future[Int] = async {&#x000A;  val future1 = slowCalcFuture&#x000A;  val future2 = slowCalcFuture&#x000A;  await(future1) + await(future2)&#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Types are there for you</h1>
-        
-        <ul>
-        <li><code>Future[T]</code> vs <code>T</code>
-        
-        <ul>
-        <li>important difference</li>
-        <li><code>Future[T]</code> keeps latency,<br>error handling on your mind</li>
-        </ul>
-        </li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>import language._</code></h1>
-        
-        <h2>SIP-18 helps you KISS</h2>
-        
-        <ul>
-        <li>Help you identify Good Parts for
-        
-        <ul>
-        <li>your project, and</li>
-        <li>your team,</li>
-        <li>at this time.</li>
-        </ul>
-        </li>
-        <li>Desirable subset of Scala evolves.</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>import language._</code></h1>
-        
-        <ul>
-        <li>postfixOps</li>
-        <li>reflectiveCalls</li>
-        <li>implicitConversions</li>
-        <li>existentials</li>
-        <li>higherKinds</li>
-        <li>dynamics</li>
-        <li>experimental.macros</li>
-        </ul>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>Dynamic</code></h1>
-        
-        <p><textarea class='code' display='none' mode='text/x-scala'>class AnythingGoes extends Dynamic {&#x000A;  def applyDynamic(selection: String)(args: Any*): Any =&#x000A;    println(s"You called $selection${args.mkString("(", ",", ")")}. Thanks!")&#x000A;}</textarea>
-    </p>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>Dynamic</code> meets <code>macro</code></h1>
-        
-        <h2>By @paulp</h2>
-        
-        <pre>
-        scala> val dict = Dict.dict
-        dict: Dict = Dict(88629 words, 103040 definitions)
-        
-        // safe, unsafe, it's all the same if we know what we're doing
-        scala> dict.unsafeOracle.flibbertigibbet
-        res1: Definitions = 
-        flibbertigibbet
-        Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-        
-        scala> dict.safeOracle.flibbertigibbet
-        res2: Definitions = 
-        flibbertigibbet
-        Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-        </pre>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1><code>Dynamic</code> meets <code>macro</code></h1>
-        
-        <h2>By @paulp</h2>
-        
-        <pre>
-        // it is when we make up supposed "crazy, made-up" words that we
-        // enjoy the difference
-        scala> dict.unsafeOracle.bippy
-        res3: Definitions = Runtime Vocabulary Failure: No Such Word
-        
-        scala> dict.safeOracle.bippy
-        <console>:9: error: not found: "bippy"
-                      dict.safeOracle.bippy
-                           ^
-        </pre>
-      </div>
-      <div class='spacer bottom'></div>
-    </section>
-    <section class='left slide'>
-      <div class='spacer top'></div>
-      <div class='content'>
-        <h1>Scala 2.11</h1>
+        <h1>2.11</h1>
         
         <ul>
         <li>Smaller
@@ -1073,10 +471,6 @@
         </ul>
         </li>
         </ul>
-        
-        
-        <p><p/>
-        (BTW, default target will be Java 6)</p>
       </div>
       <div class='spacer bottom'></div>
     </section>

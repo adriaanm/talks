@@ -2,16 +2,16 @@
 
 !SLIDE intro
 # Scala 2.10!
-#### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
+<img height="50%" src="images/scala.png"/>
+####  Jason Zaugg | [@retronym](http://twitter.com/retronym) | <img style="vertical-align: middle; display: inline; margin-top: 35px;" width="200px" src="http://typesafe.com/assets/images/typesafe@2x.png"/>
 
 !SLIDE days
 #[Scala Days](http://scaladays.org)
 
-### **ScalaDays13SFScala**
-### 20% discount
 ### June 10th-12th 2013, NYC
 
 !SLIDE left
+
 # Hi!
 
   * Thank you, [contributors!](https://github.com/scala/scala/contributors)
@@ -27,19 +27,253 @@
 
 !SLIDE
 # Scala
-## Simple
+## Welcome to Scala 2.10!
+
+!SLIDE left
+# two dot ten
+
+ * 18 months
+ * 4376 commits
+   * Now in Git(Hub)!
+ * A handful of new features...
+   * guided by the [SIP process](http://docs.scala-lang.org/sips/index.html)
+   * documented on [docs.scala-lang.org](http://docs.scala-lang.org)
+   * crafted to play nicely with each other
+
+!SLIDE left
+# Highlights
+
+  * String Interpolation ([SIP-11](https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US))
+  * Value Classes ([SIP-15](https://docs.google.com/document/d/10TQKgMiJTbVtkdRG53wsLYwWM2MkhtmdV25-NZvLLMA/edit?hl=en_US))
+  * Implicit Classes ([SIP-13](http://docs.scala-lang.org/sips/pending/implicit-classes.html))
+  * Rewritten Pattern Matcher
+
+!SLIDE left
+# Highlights
+
+  * Feature Imports ([SIP-18](https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit))
+  * Futures and Promises ([SIP-14](http://docs.scala-lang.org/sips/pending/futures-promises.html))
+  * Dependent method types
+     * Factory methods for cakes.
+  * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
+
+!SLIDE left
+# Highlights
+
+  * trait Dynamic ([SIP-17](https://docs.google.com/document/d/1XaNgZ06AR7bXJA9-jHrAiBVUwqReqG4-av6beoLaf3U/edit))
+  * Reflection (experimental, [overview](http://docs.scala-lang.org/overviews/reflection/overview.html))
+  * Macros (experimental, [SIP-16](http://docs.scala-lang.org/overviews/macros/overview.html))
+
+!SLIDE left
+
+  Our journey starts with a humble string.
+
+``` text/x-scala
+"Hello, flatMap(Oslo)!"
+```
+
+!SLIDE left
+
+> In the Age of the Internet, strings are the new integers: everyone's using them for everything.
+
+[Henney, 2000](http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2001/cexp1911/henney/henney.htm)
+
+!SLIDE left
+
+A dozen years later, and they are still as popular.
+
+``` text/x-scala
+val greetee = "flatmap(Oslo)"
+"Hello, "+greetee+"!"
+```
+
+Scala has `"regular"` and `"""multiline"""` strings.
+
+How about `"$interpolation"`?
+
 
 !SLIDE
-# Scala
-## I'm serious.
 
+# Why Martin hates String Interpolation.
+
+<img src="images/keyboard.png" height="600px"/>
+
+!SLIDE
+
+> On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just __looks__ ugly. And it's so hard to __type__!
+
+Jorge Ortiz. <img src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>
+
+!SLIDE
+
+> And then it hit me. Maybe __Swiss keyboards__ have more __convenient__ access to the `"+` and `+"` key combinations.
+
+Jorge Ortiz. <img src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>
+
+!SLIDE
+
+> But there you go: once again, Martin was right. Scala really doesn't need better string interpolation. I just need a more-Swiss keyboard.
+
+[Jorge Ortiz scala-debate 2008](http://www.scala-lang.org/node/2025)
+
+!SLIDE
+# SIP-11 String Interp.
+
+Actually, we just needed a take on interpolation that __feels right__ for Scala.
+
+``` text/x-scala
+val greetee = "flatMap(Oslo)"
+s"Hello, $greetee!"
+```
+
+!SLIDE
+
+String interpolation is a rewriting rule*
+
+``` text/x-scala
+val greetee = "flatMap(Oslo)"
+s"Hello, $greetee!"
+
+StringContext("Hello", "!").s(greetee)
+```
+
+*just like `for` comprehesions.
 
 
 !SLIDE
-# Scala = Unifier
 
-  * Functions (small abstractions)
-  * Objects and traits (big abstractions)
+That was plain `s`-ubstitution.
+
+We can also `f`-ormat:
+
+``` text/x-scala
+f"Pi = ${math.Pi}%.4f"
+```
+
+(Use `${<expr>}` to interpolate expressions.)
+
+
+!SLIDE
+
+`f` is type-aware.
+
+``` text/x-scala
+f"Pi = ${false}%.4f"
+```
+
+(Want to know how? Come to my workshop!)
+
+!SLIDE
+
+This feature is __extensible__.
+
+Enrich `StringContext` with new interpolators.
+
+``` text/x-scala
+implicit class RichStringContext(val sc: StringContext) extends AnyVal {
+  def shouty(args: Any*) = sc.s(args: _*).toUpperCase
+}
+shouty"can anyone hear me?"
+```
+
+!SLIDE
+
+# Implicit Classes
+
+ - Boilerplate free extension methods
+ - Shorthand for a class + implicit def
+ - Must nest (can be in package object)
+
+``` text/x-scala
+implicit class RichStringContext(sc: StringContext) {
+  def shouty(args: Any*) = sc.s(args: _*).toUpperCase
+}
+shouty"can anyone hear me?"
+```
+
+!SLIDE
+
+# Feature Imports
+
+We saw how implicit classes make best practice use of implicits convenient.
+
+More general implicit conversions now come with a warning.
+
+``` text/x-scala
+implicit def str2int(s: String) = s.length
+```
+
+!SLIDE
+
+# Value Classes
+
+ - Allocation free classes*
+
+``` text/x-scala
+implicit class Ext(val i: Int) extends AnyVal {
+  def isPositive = i > 0
+}
+0.isPositive
+// Ext.isPositive$extension(0)
+```
+*well, not entirely.
+
+!SLIDE
+
+# Value Classes
+
+``` text/x-scala
+class Meter(val value: Double) extends AnyVal {
+  def +(other: Meter) = new Meter(value + other.value)
+}
+new Meter(0) + new Meter(2) // Unboxed
+Array(new Meter(0))         // Boxed
+```
+
+!SLIDE
+# Pat and Mat
+
+<image src="images/patmat.JPG" height="600px"/>
+
+!SLIDE
+# virtpatmat
+
+ - [@adriaanm](https://twitter.com/adriaanm)'s rewrite of the pattern matcher
+ - A tidal wave of bug fixes:
+   - ["... exponential-space bytecode"](https://issues.scala-lang.org/browse/SI-1133)
+   - [Compiler generates wrong code...](https://issues.scala-lang.org/browse/SI-1697)
+ - Better match analysis the patterns.
+
+!SLIDE
+# Exhaustivity
+
+``` text/x-scala
+def foo(a: Boolean, b: Boolean) =
+  (a, b) match { case (true, false) =>  }
+```
+
+``` text/x-scala
+def foo(a: Option[String]) =
+  a match { case None | Some("!") =>  }
+```
+
+!SLIDE
+
+# Smarter Warnings
+``` text/x-scala
+def list(as: Seq[Int]): List[Int] = as match {
+  case li: List[Int] => li // used to be a warning
+  case _             => List()
+}
+```
+
+!SLIDE
+
+# Smarter Warnings
+``` text/x-scala
+class C; class D;
+def foo(c: C, d: D) = c == d
+```
 
 
 !SLIDE

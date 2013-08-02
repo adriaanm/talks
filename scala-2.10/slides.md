@@ -24,7 +24,15 @@
 
 !SLIDE
 # Scala
-## I'm serious.
+## I'm serious
+
+!SLIDE
+# Scala
+## simple != easy
+
+!SLIDE
+# Scala
+## easy != simple
 
 
 
@@ -81,8 +89,8 @@ def interpret(data: String): String = {
 }
 ```
 
-#### [Full code](https://github.com/adriaanm/replhtml/blob/master/src/main/scala/ReplMain.scala)
-
+#### [github.com/adriaanm/replhtml](https://github.com/adriaanm/replhtml/blob/master/src/main/scala/ReplMain.scala)
+#### [github.com/adriaanm/talks](https://github.com/adriaanm/talks/tree/master/scala-2.10)
 
 !SLIDE
 # To be continued
@@ -102,7 +110,7 @@ def interpret(data: String): String = {
   * Feature Imports ([SIP-18](https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit))
   * Futures and Promises ([SIP-14](http://docs.scala-lang.org/sips/pending/futures-promises.html))
   * Dependent method types
-     * Factory methods for cakes.
+     * Cake factory methods.
   * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
 
 !SLIDE left
@@ -128,6 +136,7 @@ def interpret(data: String): String = {
 
   * Extractors can be extension methods
   * Nicer error messages via SAT solving
+    * Improving CNF encoding: [#2724](https://github.com/scala/scala/pull/2724)
   * "Virtualized": e.g., match in the [probability monad](https://github.com/namin/scala/blob/topic-virt-patmat-2.10.0/test/files/run/virtpatmat_problang3.scala)
 
 
@@ -355,41 +364,6 @@ Cool applications/articles:
   * [From Kiama team](http://hootenannylas.blogspot.com.au/2013/02/pattern-matching-with-string.html)
 
 
-!SLIDE
-# Scala 2.10 got bigger
-## Simple?
-
-!SLIDE
-# Scala 2.10 got bigger
-## Complex?
-
-!SLIDE
-# Scala 2.10 got bigger
-## Complicated?
-
-!SLIDE
-# Scala 2.10 got bigger
-## Simplistic?
-
-
-!SLIDE left
-# Simplicity
-
-  * New feature = investment
-  * Make it count
-  * Simplicity through uniformity
-  * Not bolted on, but fused with the core
-
-
-!SLIDE left
-# Standing on simple core
-
-  * Simple yet sophisticated core
-  * Many cool manifestations
-  * Many in libraries
-  * Many by you
-
-
 !SLIDE 
 # Scala = Pragmatic
 
@@ -440,7 +414,7 @@ def combined: Future[Int] = for {
 
 !SLIDE
 # Asynchronicity
-## [scala-async](https://github.com/scala/async)
+## [scala-async!](https://github.com/scala/async)
 
 ``` text/x-scala
 def combined: Future[Int] = async {
@@ -529,7 +503,7 @@ scala> dict.safeOracle.bippy
                    ^
 </pre>
 
-!NOTES
+  
 typesafe proxy
 https://gist.github.com/paulp/5265030
 
@@ -541,27 +515,26 @@ https://gist.github.com/paulp/5265030
   * Smaller
     * Modularizing std lib & compiler
     * Roll your own scala.xml!
-  * Faster
-    * Incremental compiler (@gkossakowski)
-    * Better optimizer/codegen (@magarciaEPFL, @jamesiry)
-  * Stabler
-    * Mature 2.10's experimental features
-
-<p/>
-(BTW, default target will be Java 6)
 
 !SLIDE left
 # Scala 2.11
 
-  * scala-async!
-  * macros & reflection
-    * stay experimental, no type macros
-    * best practices: blackbox macros 
+  * Faster
+    * Incremental compiler (@gkossakowski)
+    * Better optimizer/codegen (@magarciaEPFL, @jamesiry)
+
+!SLIDE left
+# Scala 2.11
+
+  * Stabler
+    * Mature 2.10's experimental features
+    * Macros & Reflection
+      * stay experimental, no type macros
+      * best practices: blackbox macros 
+
 
 !SLIDE
 # Thanks!
 
 # Questions!
-
-
 

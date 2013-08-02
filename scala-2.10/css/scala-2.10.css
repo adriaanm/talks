@@ -21,13 +21,17 @@
 }
 */
 
+.on-slide-0 {
+  background-color: #000 !important;
+}
+
 .slide.intro {
   width: 100%;
   background-size: contain;
   background-image: url(../images/sauvabelin.jpg);
   background-repeat: no-repeat;
   background-position: center center;
-  background-color: #000;
+  background-color: #000 !important;
 }
 
 .slide.intro h1 {
@@ -35,7 +39,7 @@
   font-weight: normal;
   color: white;
   margin-top: 20%;
-  width: 100%;
+  width: 110%;
 }
 
 .slide.intro h4 {

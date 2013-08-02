@@ -4,13 +4,6 @@
 # Scala 2.10!
 #### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
 
-!SLIDE days
-#[Scala Days](http://scaladays.org)
-
-### **ScalaDays13SFScala**
-### 20% discount
-### June 10th-12th 2013, NYC
-
 !SLIDE left
 # Hi!
 
@@ -547,15 +540,23 @@ https://gist.github.com/paulp/5265030
 
   * Smaller
     * Modularizing std lib & compiler
+    * Roll your own scala.xml!
   * Faster
-    * Better optimizer (@jamesiry)
     * Incremental compiler (@gkossakowski)
-    * Shorter compile times
+    * Better optimizer/codegen (@magarciaEPFL, @jamesiry)
   * Stabler
     * Mature 2.10's experimental features
 
 <p/>
 (BTW, default target will be Java 6)
+
+!SLIDE left
+# Scala 2.11
+
+  * scala-async!
+  * macros & reflection
+    * stay experimental, no type macros
+    * best practices: blackbox macros 
 
 !SLIDE
 # Thanks!

@@ -30,11 +30,6 @@
 # Scala
 ## simple != easy
 
-!SLIDE
-# Scala
-## easy != simple
-
-
 
 !SLIDE
 # Scala = Unifier
@@ -49,7 +44,20 @@
   * Experimentation
   * Large-scala`^H`e development
 
-!SLIDE
+
+!SLIDE left
+# Simplicity
+
+  * Simple core: objects and methods
+  * Simple reduction into core
+    * `(x: Int) => x` ~> `new {def apply(x: Int) = x}`
+    * for comprehensions
+    * pattern matching
+    * string interpolation
+    * context bounds
+
+
+!SLIDE left
 # Experimenting
 ## Queue demo effect
 
@@ -110,7 +118,7 @@ def interpret(data: String): String = {
   * Feature Imports ([SIP-18](https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit))
   * Futures and Promises ([SIP-14](http://docs.scala-lang.org/sips/pending/futures-promises.html))
   * Dependent method types
-     * Cake factory methods.
+     * Cake factory methods
   * ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) -->
 
 !SLIDE left
@@ -163,8 +171,8 @@ check(None)
   * Extractors reconcile
     * Pattern matching
     * OO Encapsulation
-  * Requires Option boxing
-    * Tackling this in 2.11
+  * Requires `Option` boxing
+    * @paulp's tackling this in 2.11
     * Value classes meet patmat
 
 
@@ -235,6 +243,7 @@ case class StringContext(parts: String*) {
 ### Where'd my StringContext go?
 
 ``` text/x-scala
+// def safeBottles(n: Int) = f"$n%d bottles of beer"
 def safeBottles(n: Int) = "%d bottles of beer" format n
 ```
 
@@ -298,12 +307,23 @@ Pattern.unapplySeq("10 bottles") match {
 
 ``` text/x-scala
 val Pattern = StringContext("""\d* bottles""").r
+
+Pattern.unapplySeq("10 bottles") match {
+  case Some(_) => "ok!"
+}
+```
+
+!NOTES
+```
+"10 bottles" match {
+ case r"""(\d*)${I(x)} bottles""" => x
+}
 ```
 
 ### Problem reduced
 
-  * add a method `r` to `StringContext`
-  * `r` returns an extractor with `unapplySeq` method
+  * add method `def r: X` to `StringContext`
+  * `X` must have an `unapplySeq` method
 
 !SLIDE
 # `implicit` meets `class`
@@ -364,7 +384,7 @@ Cool applications/articles:
   * [From Kiama team](http://hootenannylas.blogspot.com.au/2013/02/pattern-matching-with-string.html)
 
 
-!SLIDE 
+!SLIDE left
 # Scala = Pragmatic
 
   * Balance
@@ -432,7 +452,7 @@ def combined: Future[Int] = async {
     * `Future[T]` keeps latency,<br>error handling on your mind
 
 
-!SLIDE
+!SLIDE left
 # `import language._`
 ## SIP-18 helps you KISS
 
@@ -511,26 +531,28 @@ https://gist.github.com/paulp/5265030
 
 !SLIDE left
 # Scala 2.11
+## Smaller
 
-  * Smaller
-    * Modularizing std lib & compiler
-    * Roll your own scala.xml!
-
-!SLIDE left
-# Scala 2.11
-
-  * Faster
-    * Incremental compiler (@gkossakowski)
-    * Better optimizer/codegen (@magarciaEPFL, @jamesiry)
+  * Modularizing std lib & compiler
+  * Roll your own scala.xml!
 
 !SLIDE left
 # Scala 2.11
+## Faster
 
-  * Stabler
-    * Mature 2.10's experimental features
-    * Macros & Reflection
-      * stay experimental, no type macros
-      * best practices: blackbox macros 
+  * Incremental compiler<br>
+    (@gkossakowski)
+  * Better optimizer/codegen<br>
+    (@magarciaEPFL, @jamesiry)
+
+!SLIDE left
+# Scala 2.11
+## Stabler
+
+  * Mature 2.10's experimental features
+  * Macros & Reflection
+    * stay experimental, no type macros
+    * best practices: blackbox macros 
 
 
 !SLIDE

@@ -48,7 +48,7 @@
 
 .keydown.deck-container h1 {
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+/*  color: white;*/
   font-weight: 400;
 /* 
   background-color: #7bdcf5;
@@ -103,6 +103,7 @@
 }
 
 .slide.intro h1 {
+  width: 110%;
   background-color: rgba(0, 0, 0, 0.5);
   font-weight: normal;
   color: white;
@@ -120,16 +121,6 @@
 
 .slide.intro h4 a {
   color: rgb(0, 214, 255);
-}
-
-
-.slide.days h1 {
-  margin-top: 5%;
-  margin-bottom: 2%;  
-}
-
-.slide.days h3 {
-  margin-top: 2%;
 }
 
 

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>What's new in Scala 2.10</title>
+    <meta charset='utf-8'>
+    <meta content='width=1024, user-scalable=no' name='viewport'>
+    <!-- deck.js's core css -->
+    <link href="deck.js/core/deck.core.css" rel="stylesheet" type="text/css"/>
+    <!-- deck.js extension CSS files -->
+    <link href="deck.js/extensions/deck.js-codemirror/deck.codemirror.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/goto/deck.goto.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/hash/deck.hash.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/menu/deck.menu.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/navigation/deck.navigation.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/scale/deck.scale.css" rel="stylesheet" type="text/css"/>
+    <link href="deck.js/extensions/status/deck.status.css" rel="stylesheet" type="text/css"/>
+    <!-- all css in the css dir: Keydown CSS, your custom CSS, and themes from deck.js -->
+    <link href="css/keydown.css" rel="stylesheet" type="text/css"/>
+    <link href="css/default.css" rel="stylesheet" type="text/css"/>
+    <link href="css/scala-2.10.css" rel="stylesheet" type="text/css"/>
+    <link href="css/swiss.css" rel="stylesheet" type="text/css"/>
+    <!-- Modernizr (provided for legacy browsers) -->
+    <script src="deck.js/support/modernizr.custom.js" type="text/javascript"></script>
+  </head>
+  <body class='deck-container keydown'>
+    <section class='intro slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Scala 2.10!</h1>
+        
+        <p><img height="50%" src="images/scala.png"/></p>
+        
+        <h4>Jason Zaugg | <a href="http://twitter.com/retronym">@retronym</a> | <img style="vertical-align: middle; display: inline; margin-top: 35px;" width="200px" src="http://typesafe.com/assets/images/typesafe@2x.png"/></h4>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>two dot ten</h1>
+        
+        <ul>
+        <li>18 months</li>
+        <li>4376 commits
+        
+        <ul>
+        <li>Now in Git(Hub)!</li>
+        </ul>
+        </li>
+        <li>A handful of new features...
+        
+        <ul>
+        <li>guided by the <a href="http://docs.scala-lang.org/sips/index.html">SIP process</a></li>
+        <li>documented on <a href="http://docs.scala-lang.org">docs.scala-lang.org</a></li>
+        <li>crafted to play nicely with each other</li>
+        </ul>
+        </li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Highlights</h1>
+        
+        <ul>
+        <li>String Interpolation (<a href="https://docs.google.com/document/d/1NdxNxZYodPA-c4MLr33KzwzKFkzm9iW9POexT9PkJsU/edit?hl=en_US">SIP-11</a>)</li>
+        <li>Value Classes (<a href="https://docs.google.com/document/d/10TQKgMiJTbVtkdRG53wsLYwWM2MkhtmdV25-NZvLLMA/edit?hl=en_US">SIP-15</a>)</li>
+        <li>Implicit Classes (<a href="http://docs.scala-lang.org/sips/pending/implicit-classes.html">SIP-13</a>)</li>
+        <li>Rewritten Pattern Matcher</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Highlights</h1>
+        
+        <ul>
+        <li>Feature Imports (<a href="https://docs.google.com/document/d/1nlkvpoIRkx7at1qJEZafJwthZ3GeIklTFhqmXMvTX9Q/edit">SIP-18</a>)</li>
+        <li>Futures and Promises (<a href="http://docs.scala-lang.org/sips/pending/futures-promises.html">SIP-14</a>)</li>
+        <li>Dependent method types
+        
+        <ul>
+        <li>Factory methods for cakes.</li>
+        </ul>
+        </li>
+        <li>ASM-based back-end <!-- (faster, adds basic 1.6/1.7 support) --></li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Highlights</h1>
+        
+        <ul>
+        <li>trait Dynamic (<a href="https://docs.google.com/document/d/1XaNgZ06AR7bXJA9-jHrAiBVUwqReqG4-av6beoLaf3U/edit">SIP-17</a>)</li>
+        <li>Reflection (experimental, <a href="http://docs.scala-lang.org/overviews/reflection/overview.html">overview</a>)</li>
+        <li>Macros (experimental, <a href="http://docs.scala-lang.org/overviews/macros/overview.html">SIP-16</a>)</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Strings</h1>
+        
+        <p>  Our journey starts with a humble string.</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>"Hello, flatMap(Oslo)!"</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <p>This presentation is <strong>executable</strong>.</p>
+        
+        <p>Clone and run: <a href="http://git.io/Qw-Krw">git.io/Qw-Krw</a></p>
+        
+        <p><p/>
+        Brought to you by <img src="images/play.png" style="display: inline; vertical-align: middle; margin-top: 30px; margin-right: 10px" height="70px"/> and
+        <img src="images/ducttape.png" style="display: inline; ; vertical-align: middle; margin-top: 30px" height="120px"/></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Strings</h1>
+        
+        <blockquote><p>In the Age of the Internet, strings are the new integers: everyone's using them for everything.</p></blockquote>
+        
+        <p><a href="http://collaboration.cmc.ec.gc.ca/science/rpn/biblio/ddj/Website/articles/CUJ/2001/cexp1911/henney/henney.htm">Henney, 2000</a></p>
+        
+        <p><span style="font-size: 0.7em">Clone &amp; Run <a href="http://git.io/Qw-Krw">git.io/Qw-Krw</a></span></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Strings</h1>
+        
+        <p>A dozen years later, and they are still as popular.</p>
+        
+        <p><img src="images/text.png" height="70%"/></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatmap(Oslo)"&#x000A;"Hello, "+greetee+"!" // yuck</textarea>
+    </p>
+        
+        <p>Scala has <code>"regular"</code> and <code>"""multiline"""</code> strings.</p>
+        
+        <p>How about <code>"$interpolation"</code>?</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Historical Detour</h1>
+        
+        <h2>Why Martin hates String Interpolation.</h2>
+        
+        <p><img src="images/keyboard.png" height="600px"/></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Historical Detour</h1>
+        
+        <blockquote><p>On the issue of string interpolation I've always found Martin's stance to be rather puzzling. It just <strong>looks</strong> ugly. And it's so hard to <strong>type</strong>!</p></blockquote>
+        
+        <p><img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/> Jorge Ortiz</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Historical Detour</h1>
+        
+        <blockquote><p>And then it hit me. Maybe <strong>Swiss keyboards</strong> have more <strong>convenient</strong> access to the <code>"+</code> and <code>+"</code> key combinations.</p>
+        
+        <p>Martin was right. Scala really doesn't need better string interpolation. I just need a <strong>more-Swiss keyboard</strong>.</p></blockquote>
+        
+        <p><img style="display: inline; vertical-align: middle; margin-right: 20px; margin-top: 25px" src="https://si0.twimg.com/profile_images/31208162/n201149_31531916_6855.jpg" height="60px"/>Jorge Ortiz <a href="http://www.scala-lang.org/node/2025">scala-debate 2008</a></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p>Actually, we just needed a take on interpolation that <strong>feels right</strong> for Scala.</p>
+        
+        <p>Smarts in the library, not the language.
+         <p/></p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p>String interpolation is a rewriting rule*</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>val greetee = "flatMap(Oslo)"&#x000A;s"Hello, $greetee!"&#x000A;&#x000A;StringContext("Hello ", "!").s(greetee)</textarea>
+    </p>
+        
+        <p>*just like <code>for</code> comprehesions.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p>That was plain <code>s</code>-ubstitution.</p>
+        
+        <p>We can also <code>f</code>-ormat:</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>f"Pi = ${math.Pi}%.4f"</textarea>
+    </p>
+        
+        <p>(Use <code>${&lt;expr&gt;}</code> to interpolate expressions.)</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p><code>f</code> is type-aware.</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>f"Pi = ${false}%.4f"</textarea>
+    </p>
+        
+        <p>Want to know how?</p>
+        
+        <p>Come to my macro workshop!</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>String Interpolation</h1>
+        
+        <p>This feature is <strong>extensible</strong>.</p>
+        
+        <p>Enrich <code>StringContext</code> with new interpolators.</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class RichStringContext&#x000A;         (val sc: StringContext) extends AnyVal {&#x000A;  def shouty(args: Any*) = sc.s(args: _*).toUpperCase&#x000A;}&#x000A;shouty"Is this thing turned on?"</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Implicit Classes</h1>
+        
+        <ul>
+        <li>Boilerplate free extension methods</li>
+        <li>Shorthand for a class + implicit def</li>
+        <li>Must nest (can be in package object)</li>
+        </ul>
+        
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class IC(wrapped: String) {&#x000A;  def extensionMethod(a: Int) = wrapped.length + a&#x000A;}&#x000A;"".extensionMethod(0)</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Feature Imports</h1>
+        
+        <p>Implicit classes make best practice use of implicits convenient.</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>// maybe not such a great idea.&#x000A;implicit def str2int(s: String) = s.length</textarea>
+    </p>
+        
+        <p>More general implicit conversions now come with a warning.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Value Classes</h1>
+        
+        <ul>
+        <li>Allocation free classes*</li>
+        </ul>
+        
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>implicit class Ext(val i: Int) extends AnyVal {&#x000A;  def isPositive = i > 0&#x000A;}&#x000A;0.isPositive&#x000A;// Ext.isPositive$extension(0)</textarea>
+    
+        *well, not entirely.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Value Classes</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>class Meter(val value: Double) extends AnyVal {&#x000A;  def +(other: Meter) = new Meter(value + other.value)&#x000A;}&#x000A;new Meter(0) + new Meter(2) // Unboxed&#x000A;Array(new Meter(0))         // Boxed</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Pat and Mat</h1>
+        
+        <p><image src="images/patmat.JPG" height="600px"/></p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>virtpatmat</h1>
+        
+        <ul>
+        <li><a href="https://twitter.com/adriaanm">@adriaanm</a>'s rewrite of the pattern matcher</li>
+        <li>A tidal wave of bug fixes:
+        
+        <ul>
+        <li><a href="https://issues.scala-lang.org/browse/SI-1133">"... exponential-space bytecode"</a></li>
+        <li><a href="https://issues.scala-lang.org/browse/SI-1697">Compiler generates wrong code...</a></li>
+        </ul>
+        </li>
+        <li>Better match analysis the patterns.</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Exhaustivity</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>def foo(a: Boolean, b: Boolean) =&#x000A;  (a, b) match { case (true, false) =>  }</textarea>
+    </p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>def foo(a: Option[String]) =&#x000A;  a match { case None | Some("!") =>  }</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Smarter Warnings</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>def list(as: Seq[Int]): List[Int] = as match {&#x000A;  case li: List[Int] => li // used to be a warning&#x000A;  case _             => List()&#x000A;}</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Smarter Warnings</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>class C; class D;&#x000A;def foo(c: C, d: D) = c == d</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Public Service Announcement</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>// what, no warning?&#x000A;(1, 2) match { case Seq(x) =>; case _ => }</textarea>
+    </p>
+        
+        <p>The compiler can't rule out:</p>
+        
+        <p>  <code>class Z extends (A, B) with Seq[C]</code>.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Public Service Announcement</h1>
+        
+        <h2>Finality is your friend</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>final case class T2[A, B](a: A, b: B)&#x000A;T2(1, 2) match { case Seq(x) =>; case _ => }</textarea>
+    </p>
+        
+        <p><code>scala.TupleN</code> will be final in 2.12 (deprecation is a drag.)</p>
+        
+        <p>Will be considered final for analyses under <code>-Xlint</code> in 2.11</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Dynamic</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.dynamics&#x000A;class dyno(val stack: List[String] = Nil)&#x000A;  extends Dynamic {&#x000A;  def selectDynamic(name: String) =&#x000A;    new dyno(name :: stack)&#x000A;}&#x000A;new dyno().foo.bar.baz.stack</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Dynamic</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.dynamics&#x000A;class dyno(val stack: List[String] = Nil)&#x000A;  extends Dynamic {&#x000A;&#x000A;  def applyDynamic(name: String)(args: Any*) =&#x000A;   applyDynamicNamed(name)(args.map(("<>",  _)): _*)&#x000A;&#x000A;  def applyDynamicNamed(name: String)&#x000A;                       (args: (String, Any)*) = {&#x000A;    val str = s"$name(${args.mkString(", ")})"&#x000A;    new dyno(str :: stack)&#x000A;  }&#x000A;}&#x000A;&#x000A;new dyno().foo(a = 1).bar(true).stack</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Dynamic</h1>
+        
+        <ul>
+        <li>Applications:
+        
+        <ul>
+        <li>Querying JSON</li>
+        <li>Calling web services</li>
+        <li>Cute Reflection APIs</li>
+        </ul>
+        </li>
+        </ul>
+        
+        
+        <p><p/>
+        But can we agree <strong>not</strong> to emulate ActiveRecord's<p/> <a href="https://github.com/rails/rails/blob/277c799/activerecord/lib/active_record/base.rb#L1832-L1846"><code>find_by_name_and_age</code></a>?</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>What I haven't covered</h1>
+        
+        <ul>
+        <li><code>scala.concurrent._</code>
+        
+        <ul>
+        <li>scala-async</li>
+        </ul>
+        </li>
+        <li>Reflection / Macros (experimental)</li>
+        <li>Retooled bytecode emitter</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide top'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>2.11</h1>
+        
+        <ul>
+        <li>Smaller
+        
+        <ul>
+        <li>Modularizing std lib &amp; compiler</li>
+        </ul>
+        </li>
+        <li>Faster
+        
+        <ul>
+        <li>Better optimizer (@jamesiry)</li>
+        <li>Incremental compiler (@gkossakowski)</li>
+        <li>Shorter compile times</li>
+        </ul>
+        </li>
+        <li>Stabler
+        
+        <ul>
+        <li>Mature 2.10's experimental features</li>
+        </ul>
+        </li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Thanks!</h1>
+        
+        <h1>Questions!</h1>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <!-- deck.js navigation extension -->
+    <a class='deck-prev-link' href='#' title='Previous'>&#8592;</a>
+    <a class='deck-next-link' href='#' title='Next'>&#8594;</a>
+    <!-- deck.js hash extension -->
+    <a class='deck-permalink' href='.' title='Permalink to this slide'>#</a>
+    <!-- deck.js status extension -->
+    <p class='deck-status'>
+      <span class='deck-status-current'></span>
+      /
+      <span class='deck-status-total'></span>
+    </p>
+    <!-- jQuery & deck.js -->
+    <script src="deck.js/support/jquery.1.6.4.min.js" type="text/javascript"></script>
+    <script src="deck.js/core/deck.core.js" type="text/javascript"></script>
+    <!-- deck.js extension JS files -->
+    <script src="deck.js/extensions/deck.js-codemirror/codemirror.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/deck.codemirror.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/introduction/introduction.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/introduction/modernizr.custom.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/clike/clike.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/clojure/clojure.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/coffeescript/coffeescript.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/css/css.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/diff/diff.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/haskell/haskell.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/javascript/javascript.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/lua/lua.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/php/php.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/plsql/plsql.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/python/python.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/r/r.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/rst/rst.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/ruby/ruby.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/scheme/scheme.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/smalltalk/smalltalk.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/sparql/sparql.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/stex/stex.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/velocity/velocity.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/xml/xml.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/xmlpure/xmlpure.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/mode/yaml/yaml.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/scala_completion.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/goto/deck.goto.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/hash/deck.hash.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/menu/deck.menu.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/navigation/deck.navigation.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/scale/deck.scale.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/status/deck.status.js" type="text/javascript"></script>
+    <!-- your custom JS here, including call to initialize deck.js-codemirror -->
+    <script src="js/scala-2.10.js" type="text/javascript"></script>
+    <!-- Initialize the deck. -->
+    <script type='text/javascript'>
+      $(function() { $.deck('.slide'); });
+    </script>
+  </body>
+</html>

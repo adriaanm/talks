@@ -5,27 +5,101 @@
 #### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
 
 !SLIDE 
-# Macros are Experimental
+## Macros are Experimental
 
 !SLIDE 
-# Best to Avoid Them
+## Best to Avoid Them
 
 !SLIDE 
-# Questions?
+## Questions?
 
-
-!SLIDE left
-# What
-
-- a method evaluated by the type checker
-- two parts:
-  - a definition: body is `macro implName`
-  - an underlying implementation `implName` (the meta-program)
-- a macro invocation expression is replaced by its expansion,
-  as defined by the macro implementation
-- has access to the surrounding program
 
 !SLIDE
+# Macro?
+
+## method run by type checker
+
+
+
+!SLIDE
+# Macro: two-faced `$%#`
+
+## a definition
+
+``` text/x-scala
+def foo = macro fooMeta
+```
+## meta-program
+
+``` text/x-scala
+import reflect.macros._
+def fooMeta(c: BlackboxContext): c.Expr[Unit] = { 
+  import c.universe._; c.Expr(q"""{}""")
+}
+```
+
+!SLIDE
+## **meta:** greek for<br>"code analysing/generating code"
+
+!SLIDE
+## meta-program
+
+``` text/x-scala
+def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]
+```
+
+- can access meta-level, aka compiler's guts (ctx)
+- `ctx.Expr[T]` is the *representation* of an expression of type T
+
+!SLIDE
+## quasi-quotes
+
+``` text/x-scala
+import c.universe._ // oh hi, I'm in your compiler!
+c.Expr(
+  q"""{}""" // quasi-quote
+)
+```
+
+`q"""{}"""` is the data structure (AST)<br>
+that represents the Scala program `{}`
+
+!SLIDE left
+## meta-program
+### BlackboxContext: benign
+- can understand macro call without knowing its expansion
+- macro call behaves just like method call
+- cognitive burden low, IDEs aren't bothered
+- can still emit errors/warnings
+
+!SLIDE left
+## meta-program
+### WhiteboxContext: wildcard
+Macro expansion required to:
+- determine type of macro invocation
+- perform type inference (delayed until after expansion)
+- resolve implicits 
+- compile pattern match
+ 
+!NOTES
+source location: https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala
+extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c51f27d80d9cf980dc
+(rely on name-based patmat: https://github.com/scala/scala/pull/2848)
+
+!SLIDE
+## macro invocation
+
+replaced by its expansion, as defined by the meta-program
+
+``` text/x-scala
+class C { def m = foo }
+```
+
+``` text/x-scala
+:javap -c C
+```
+
+!NOTES
 # Macros are experimental
 
 ``` text/x-scala

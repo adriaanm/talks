@@ -35,51 +35,127 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Macros are Experimental</h1>
+        <h2>Macros are Experimental</h2>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Best to Avoid Them</h1>
+        <h2>Best to Avoid Them</h2>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Questions?</h1>
+        <h2>Questions?</h2>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Macro?</h1>
+        
+        <h2>method run by type checker</h2>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Macro: two-faced <code>$%#</code></h1>
+        
+        <h2>a definition</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>def foo = macro fooMeta</textarea>
+    </p>
+        
+        <h2>meta-program</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Expr[Unit] = { &#x000A;  import c.universe._; c.Expr(q"""{}""")&#x000A;}</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2><strong>meta:</strong> greek for<br>"code analysing/generating code"</h2>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>meta-program</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]</textarea>
+    </p>
+        
+        <ul>
+        <li>can access meta-level, aka compiler's guts (ctx)</li>
+        <li><code>ctx.Expr[T]</code> is the <em>representation</em> of an expression of type T</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>quasi-quotes</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;c.Expr(&#x000A;  q"""{}""" // quasi-quote&#x000A;)</textarea>
+    </p>
+        
+        <p><code>q"""{}"""</code> is the data structure (AST)<br>
+        that represents the Scala program <code>{}</code></p>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>What</h1>
+        <h2>meta-program</h2>
+        
+        <h3>BlackboxContext: benign</h3>
         
         <ul>
-        <li>a method evaluated by the type checker</li>
-        <li>two parts:
+        <li>can understand macro call without knowing its expansion</li>
+        <li>macro call behaves just like method call</li>
+        <li>cognitive burden low, IDEs aren't bothered</li>
+        <li>can still emit errors/warnings</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>meta-program</h2>
         
-        <ul>
-        <li>a definition: body is <code>macro implName</code></li>
-        <li>an underlying implementation <code>implName</code> (the meta-program)</li>
-        </ul>
-        </li>
-        <li>a macro invocation expression is replaced by its expansion,
-        as defined by the macro implementation</li>
-        <li>has access to the surrounding program</li>
-        </ul>
+        <h3>WhiteboxContext: wildcard</h3>
+        
+        <p>Macro expansion required to:
+        - determine type of macro invocation
+        - perform type inference (delayed until after expansion)
+        - resolve implicits
+        - compile pattern match</p>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Macros are experimental</h1>
+        <h2>macro invocation</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.language.experimental.macros&#x000A;import scala.reflect.macros.Context</textarea>
+        <p>replaced by its expansion, as defined by the meta-program</p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>class C { def m = foo }</textarea>
+    </p>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>:javap -c C</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>

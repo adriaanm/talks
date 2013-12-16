@@ -50,12 +50,14 @@
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
   font-weight: 400;
+/* 
   background-color: #7bdcf5;
   padding-bottom: 200px;
   margin-left: -1000px;
   border-left: 1000px solid #7bdcf5;
   margin-right: -10000px;
   border-right: 10000px solid #7bdcf5;
+*/
 }
 
 .deck-container .slide .CodeMirror {
@@ -101,18 +103,14 @@
 }
 
 .slide.intro h1 {
-/*  background-color: rgba(0, 0, 0, 0.5);*/
+  background-color: rgba(0, 0, 0, 0.5);
   font-weight: normal;
   color: white;
   margin-top: 20%;
-/*  width: 110%;
-  background-color: #000 !important;
-*/
 }
 
 .slide.intro h4 {
   color: white;
-  color: #aaa;
   position: absolute;
   bottom: 5px;
   left: 50%;
@@ -135,5 +133,6 @@
 }
 
 
-.slide.top h1 {
+/*.slide.top h1 {
 }
+*/

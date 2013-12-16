@@ -4,16 +4,30 @@
 # Scala Macros
 #### Adriaan Moors | [@adriaanm](http://twitter.com/adriaanm) | [Typesafe](http://typesafe.com)
 
-!SLIDE
+!SLIDE 
+# Macros are Experimental
+
+!SLIDE 
+# Best to Avoid Them
+
+!SLIDE 
+# Questions?
+
+
+!SLIDE left
 # What
 
 - a method evaluated by the type checker
-
-- a macro invocation expression is replaced by its expansion
+- two parts:
+  - a definition: body is `macro implName`
+  - an underlying implementation `implName` (the meta-program)
+- a macro invocation expression is replaced by its expansion,
+  as defined by the macro implementation
 - has access to the surrounding program
 
 !SLIDE
 # Macros are experimental
+
 ``` text/x-scala
 import scala.language.experimental.macros
 import scala.reflect.macros.Context
@@ -26,7 +40,8 @@ import scala.reflect.macros.Context
 def noopImpl(c: Context)
     (x: c.Expr[Any]): c.Expr[Unit] = { import c.universe._
  c.Expr(q"""{}""")
-}```
+}
+```
 
 !SLIDE
 # Example #0

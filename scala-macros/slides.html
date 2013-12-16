@@ -35,9 +35,52 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>Macros are Experimental</h1>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Best to Avoid Them</h1>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Questions?</h1>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
         <h1>What</h1>
         
-        <p>Scala macros are</p>
+        <ul>
+        <li>a method evaluated by the type checker</li>
+        <li>two parts:
+        
+        <ul>
+        <li>a definition: body is <code>macro implName</code></li>
+        <li>an underlying implementation <code>implName</code> (the meta-program)</li>
+        </ul>
+        </li>
+        <li>a macro invocation expression is replaced by its expansion,
+        as defined by the macro implementation</li>
+        <li>has access to the surrounding program</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Macros are experimental</h1>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.language.experimental.macros&#x000A;import scala.reflect.macros.Context</textarea>
+    </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -48,7 +91,7 @@
         
         <h2>Macro Implementation</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.language.experimental.macros&#x000A;import scala.reflect.macros.Context&#x000A;&#x000A;def noopImpl(c: Context)(x: c.Expr[Any]): c.Expr[Unit] = { import c.universe._&#x000A;  c.Expr(q"""{}""")&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>def noopImpl(c: Context)&#x000A;    (x: c.Expr[Any]): c.Expr[Unit] = { import c.universe._&#x000A; c.Expr(q"""{}""")&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -60,7 +103,7 @@
         
         <h2>Macro Def</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>def noop(x: Any): Unit = macro noopImpl&#x000A;&#x000A;class Test { def t = noop("x") }&#x000A;&#x000A;:javap Test</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>def noop(x: Any): Unit = macro noopImpl&#x000A;&#x000A;class Test { def t = noop("x") }</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -68,9 +111,19 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Asynchronicity</h1>
+        <h1>Example #0</h1>
         
-        <h2><a href="https://github.com/scala/async">scala-async!</a></h2>
+        <h2>Macro Expansion</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>:javap -c Test</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1><a href="https://github.com/scala/async">scala async</a></h1>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>def combined: Future[Int] = async {&#x000A;  val future1 = slowCalcFuture&#x000A;  val future2 = slowCalcFuture&#x000A;  await(future1) + await(future2)&#x000A;}</textarea>
     </p>

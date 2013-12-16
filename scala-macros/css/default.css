@@ -10,7 +10,7 @@
 .cm-s-default span.cm-atom { color: #845dc4; }
 .cm-s-default span.cm-number, .cm-s-default span.cm-attribute { color: #ffd500; }
 .cm-s-default span.cm-keyword { color: #7bdcf5; }
-.cm-s-default span.cm-keyword-special { color: red; }
+.cm-s-default span.cm-keyword-special { color: #ee6768; }
 .cm-s-default span.cm-string { color: #37f14a; }
 .cm-s-default span.cm-meta { color: #7678e2; }
 .cm-s-default span.cm-variable-2, .cm-s-default span.cm-tag { color: #99b2ff; }

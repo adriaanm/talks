@@ -35,7 +35,7 @@ def foo = macro fooMeta
 ``` text/x-scala
 import reflect.macros._
 def fooMeta(c: BlackboxContext): c.Expr[Unit] = { 
-  import c.universe._; c.Expr(q"""{}""")
+  import c.universe._; c.Expr(q"{}")
 }
 ```
 
@@ -43,39 +43,42 @@ def fooMeta(c: BlackboxContext): c.Expr[Unit] = {
 import scala.language.experimental.macros
 
 !SLIDE
-## **meta:** greek for<br>"code analysing/generating code"
+## <span class="tsblue">**meta**</span> &nbsp;&nbsp;&nbsp; greek for<br>"code analysing/generating code"
 
-!SLIDE
+!SLIDE left
 ## meta-program
 
 ``` text/x-scala
 def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]
 ```
 
-- can access meta-level, aka the compiler's guts (`ctx`)
-- yields a `ctx.Expr[T]`, *representation* of expression `: T`,<br>
-in the current reflection universe (type depends on path `ctx`)
+- has access to the compiler's guts via `ctx`
+- yields a *representation* of expression of type `T`,<br>
+in the current reflection universe<br>
+(type depends on path `ctx`)
 
 !NOTES
 in the compiler, the `universe` is called `global`
 
-!SLIDE
+!SLIDE left
 ## quasi-quotes
 
 ``` text/x-scala
 import c.universe._ // oh hi, I'm in your compiler!
 c.Expr(
-  q"""{}""" // quasi-quote
+  q"{}" // quasi-quote
 )
 ```
 
-`q"""{}"""` is the data structure (AST)<br>
-that represents the Scala program `{}`
+- `c.universe`: the compiler/reflection cake
+- `q"{}"`: the data structure (AST) that<br>
+represents the Scala program `{}`
+- `c.Expr` demarcates the meta-level boundary
 
-!SLIDE
+!SLIDE left
 ## macro invocation
 
-replaced by its expansion, as defined by the meta-program
+replaced by its expansion, as defined by the macro
 
 ``` text/x-scala
 class C { def m = foo }
@@ -87,154 +90,144 @@ class C { def m = foo }
 
 !SLIDE left
 ## meta-program
-### BlackboxContext: benign
-Program understanding doesn't require macro expansion:
+### BlackboxContext: "**b**enign"
 
+- ignore macros when reading code
+- type checking, IDE unaffected
 - macro invocation = normal method invocation,<br>
-  modulo:
-  - code generation
+  except for:
   - error/warning messages
-- thus, cognitive burden low, IDEs aren't bothered
+  - code generation
 
 !SLIDE left
 ## meta-program
-### WhiteboxContext: wildcard
-Type checking depends on details of macro expansion:
+### WhiteboxContext: "**w**ildcard"
+Macro expansion interferes with type checking, IDE.
 
-- macro fully determines type of expansion
-- type inference is delayed until after expansion
-- implicit search
-- pattern match compilation
+- expansion determines type of macro call
+- guides implicit search
+- type inference delayed until after expansion
+- can be used in pattern match
  
 !NOTES
-source location: https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala
+
 extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c51f27d80d9cf980dc
 (rely on name-based patmat: https://github.com/scala/scala/pull/2848)
 
 
+!SLIDE left
+## wild`^W`whitebox
+
+``` text/x-scala
+import reflect.macros._, scala.util.Random
+def moodyMeta(c: WhiteboxContext): c.Expr[Any] = {
+  import c.universe._
+  c.Expr(
+    if (Random.nextFloat > 0.5) q"1"
+    else q""""one""""
+  )
+}
+
+def moody = macro moodyMeta
+```
+
+!SLIDE
+## pop quiz
+``` text/x-scala
+moody - 1
+```
+
+!SLIDE left
+## IDE friendliness
+- for auto complete, IDE must run whitebox macro in target
+- Scala IDE for Eclipse does this, sees expanded code
+- friendly macro [detects IDE](https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48), reports errors, doesn't expand
 
 !SLIDE left
 # Applications
 ## Code Generation
 
-  - faster code: foreach, specialized, `||` colls
-  - scrap boilerplate: play's json inception
-  - tracing / logging: expecty
+  - faster code: [foreach](https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala), [specialized](http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf), [fast || colls](https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal)
+  - ~~boilerplate~~: [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),[source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
+  - tracing / testing: [expecty](https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala), [specs2](https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala), [scalatest](https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala)
 
 !SLIDE left
 # Applications
-## Checking Code
+## Static Checks
 
-  - spores: closure doesn't capture (accidentally)
+  - [spores](https://github.com/heathermiller/spores/blob/master/src/main/scala/scala/spores/package.scala): closure doesn't capture (accidentally)
+  - [`printf` string interpolator](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14)
 
 !SLIDE left
 # Applications
-## Checking Code
+## DSLs
 
-  - DSL
-    - SBT
-    - async
-    - language virtualization
+  - SBT: `settings ( x.value )`
+  - async: `async { await(x) }`
+  - language virtualization
 
-!SLIDE
-# [scala async](https://github.com/scala/async)
+
+!SLIDE left
+# Pro Tips
+- avoid `resetAttr`, combine typed trees
+- use quasi-quotes
+- mind your hygiene (name's not as unique as you think)
+- prototype using `:power` and runtime reflection 
+- unit test [using toolbox compiler](https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227)
+
+!SLIDE left
+# Run-time Reflection
 
 ``` text/x-scala
-def combined: Future[Int] = async {
-  val future1 = slowCalcFuture
-  val future2 = slowCalcFuture
-  await(future1) + await(future2)
-}
+import reflect.runtime.universe._, scala.tools.reflect._
+
+val tree = q"println(1)"
+val id = show(tree)
+val raw = showRaw(tree)
+
+val toolbox = reflect.runtime.currentMirror.mkToolBox()
+toolbox.eval(tree)
 ```
 
 !SLIDE
-# `Dynamic`
-
-``` text/x-scala
-class AnythingGoes extends Dynamic {
-  def applyDynamic(selection: String)(args: Any*): Any =
-    println(s"You called $selection${args.mkString("(", ",", ")")}. Thanks!")
-}
-```
-
-!NOTES
-import language.dynamics
-(new AnythingGoes).notInspired("sorry")
+## Scala 2.11
+### Smaller: slim down library
+### Faster: speed up compiler
+### Stabler: slow down change
 
 !SLIDE
-# `Dynamic` meets `macro`
-## By @paulp
-
-<pre>
-scala> val dict = Dict.dict
-dict: Dict = Dict(88629 words, 103040 definitions)
-
-// safe, unsafe, it's all the same if we know what we're doing
-scala> dict.unsafeOracle.flibbertigibbet
-res1: Definitions = 
-flibbertigibbet
-Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-
-scala> dict.safeOracle.flibbertigibbet
-res2: Definitions = 
-flibbertigibbet
-Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-</pre>
+### Deprecated Aggressively
 
 !SLIDE
-# `Dynamic` meets `macro`
-## By @paulp
-
-<pre>
-// it is when we make up supposed "crazy, made-up" words that we
-// enjoy the difference
-scala> dict.unsafeOracle.bippy
-res3: Definitions = Runtime Vocabulary Failure: No Such Word
-
-scala> dict.safeOracle.bippy
-<console>:9: error: not found: "bippy"
-              dict.safeOracle.bippy
-                   ^
-</pre>
-
-  
-typesafe proxy
-https://gist.github.com/paulp/5265030
-
-!SLIDE left
-# Scala 2.11
-## Smaller  
-  * Deprecated Aggressively
-
-!SLIDE left
-# Scala 2.11
-## Smaller
-  * Modularized standard library
-    * (scala-actors)
-    * scala-parser-combinators
-    * scala-swing
-    * scala-xml --> roll your own!
-    * scala-continuations[-plugin, -library]
-
-!SLIDE left
-# Scala 2.11
-## Smaller
-  * scala-library 
-    * 2.10.4-RC1: 6.8 MB
-    * 2.11.0-M7: 5.6 MB (82%)
-
-!SLIDE left
-# Scala 2.11
-## Faster
-
-  * Incremental compiler<br>
-    (@gkossakowski)
-  * Compiler optimization<br>
-    (@retronym)
-  * Experimental better optimizer/codegen<br>
-    (@magarciaEPFL, @jamesiry)
+### Modularized standard library
+#### scala-swing
+#### scala-parser-combinators
+#### scala-xml –> roll your own!
+#### scala-continuations[-plugin, -library]
 
 
+!SLIDE
+##scala-library 
+### 2.10.4-RC1: 6.8 MB
+### 2.11.0-M7: 5.6 MB (82%)
+
+!SLIDE
+## better incremental compiler 
+### @gkossakowski
+
+!SLIDE
+## optimized compiler
+### @retronym
+
+!SLIDE
+## better optimizer/codegen
+### @magarciaEPFL, @jamesiry
+## (experimental) 
+
+
+!SLIDE
+## eighth & last milestone: mid-January
+## RC: mid-February
 
 !SLIDE
 # Thanks!

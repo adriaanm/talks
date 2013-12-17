@@ -74,7 +74,7 @@
         
         <h2>meta-program</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Expr[Unit] = { &#x000A;  import c.universe._; c.Expr(q"""{}""")&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Expr[Unit] = { &#x000A;  import c.universe._; c.Expr(q"{}")&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -82,11 +82,11 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2><strong>meta:</strong> greek for<br>"code analysing/generating code"</h2>
+        <h2><span class="tsblue"><strong>meta</strong></span> &nbsp;&nbsp;&nbsp; greek for<br>"code analysing/generating code"</h2>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>meta-program</h2>
@@ -95,32 +95,37 @@
     </p>
         
         <ul>
-        <li>can access meta-level, aka the compiler's guts (<code>ctx</code>)</li>
-        <li>yields a <code>ctx.Expr[T]</code>, <em>representation</em> of expression <code>: T</code>,<br>
-        in the current reflection universe (type depends on path <code>ctx</code>)</li>
+        <li>has access to the compiler's guts via <code>ctx</code></li>
+        <li>yields a <em>representation</em> of expression of type <code>T</code>,<br>
+        in the current reflection universe<br>
+        (type depends on path <code>ctx</code>)</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>quasi-quotes</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;c.Expr(&#x000A;  q"""{}""" // quasi-quote&#x000A;)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;c.Expr(&#x000A;  q"{}" // quasi-quote&#x000A;)</textarea>
     </p>
         
-        <p><code>q"""{}"""</code> is the data structure (AST)<br>
-        that represents the Scala program <code>{}</code></p>
+        <ul>
+        <li><code>c.universe</code>: the compiler/reflection cake</li>
+        <li><code>q"{}"</code>: the data structure (AST) that<br>
+        represents the Scala program <code>{}</code></li>
+        <li><code>c.Expr</code> demarcates the meta-level boundary</li>
+        </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>macro invocation</h2>
         
-        <p>replaced by its expansion, as defined by the meta-program</p>
+        <p>replaced by its expansion, as defined by the macro</p>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>class C { def m = foo }</textarea>
     </p>
@@ -135,20 +140,19 @@
       <div class='content'>
         <h2>meta-program</h2>
         
-        <h3>BlackboxContext: benign</h3>
-        
-        <p>Program understanding doesn't require macro expansion:</p>
+        <h3>BlackboxContext: "<strong>b</strong>enign"</h3>
         
         <ul>
+        <li>ignore macros when reading code</li>
+        <li>type checking, IDE unaffected</li>
         <li>macro invocation = normal method invocation,<br>
-        modulo:
+        except for:
         
         <ul>
-        <li>code generation</li>
         <li>error/warning messages</li>
+        <li>code generation</li>
         </ul>
         </li>
-        <li>thus, cognitive burden low, IDEs aren't bothered</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -158,20 +162,53 @@
       <div class='content'>
         <h2>meta-program</h2>
         
-        <h3>WhiteboxContext: wildcard</h3>
+        <h3>WhiteboxContext: "<strong>w</strong>ildcard"</h3>
         
-        <p>Type checking depends on details of macro expansion:</p>
+        <p>Macro expansion interferes with type checking, IDE.</p>
         
         <ul>
-        <li>macro fully determines type of expansion</li>
-        <li>type inference is delayed until after expansion</li>
-        <li>implicit search</li>
-        <li>pattern match compilation</li>
+        <li>expansion determines type of macro call</li>
+        <li>guides implicit search</li>
+        <li>type inference delayed until after expansion</li>
+        <li>can be used in pattern match</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide top'>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>wild<code>^W</code>whitebox</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._, scala.util.Random&#x000A;def moodyMeta(c: WhiteboxContext): c.Expr[Any] = {&#x000A;  import c.universe._&#x000A;  c.Expr(&#x000A;    if (Random.nextFloat > 0.5) q"1"&#x000A;    else q""""one""""&#x000A;  )&#x000A;}&#x000A;&#x000A;def moody = macro moodyMeta</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>pop quiz</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>moody - 1</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>IDE friendliness</h2>
+        
+        <ul>
+        <li>for auto complete, IDE must run whitebox macro in target</li>
+        <li>Scala IDE for Eclipse does this, sees expanded code</li>
+        <li>friendly macro <a href="https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48">detects IDE</a>, reports errors, doesn't expand</li>
+        </ul>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Applications</h1>
@@ -179,9 +216,9 @@
         <h2>Code Generation</h2>
         
         <ul>
-        <li>faster code: foreach, specialized, <code>||</code> colls</li>
-        <li>scrap boilerplate: play's json inception</li>
-        <li>tracing / logging: expecty</li>
+        <li>faster code: <a href="https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala">foreach</a>, <a href="http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf">specialized</a>, <a href="https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal">fast || colls</a></li>
+        <li><del>boilerplate</del>: <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
+        <li>tracing / testing: <a href="https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala">expecty</a>, <a href="https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala">specs2</a>, <a href="https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala">scalatest</a></li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -191,10 +228,11 @@
       <div class='content'>
         <h1>Applications</h1>
         
-        <h2>Checking Code</h2>
+        <h2>Static Checks</h2>
         
         <ul>
-        <li>spores: closure doesn't capture (accidentally)</li>
+        <li><a href="https://github.com/heathermiller/spores/blob/master/src/main/scala/scala/spores/package.scala">spores</a>: closure doesn't capture (accidentally)</li>
+        <li><a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14"><code>printf</code> string interpolator</a></li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -204,27 +242,37 @@
       <div class='content'>
         <h1>Applications</h1>
         
-        <h2>Checking Code</h2>
+        <h2>DSLs</h2>
         
         <ul>
-        <li>DSL
-        
-        <ul>
-        <li>SBT</li>
-        <li>async</li>
+        <li>SBT: <code>settings ( x.value )</code></li>
+        <li>async: <code>async { await(x) }</code></li>
         <li>language virtualization</li>
         </ul>
-        </li>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='left slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>Pro Tips</h1>
+        
+        <ul>
+        <li>avoid <code>resetAttr</code>, combine typed trees</li>
+        <li>use quasi-quotes</li>
+        <li>mind your hygiene (name's not as unique as you think)</li>
+        <li>prototype using <code>:power</code> and runtime reflection</li>
+        <li>unit test <a href="https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227">using toolbox compiler</a></li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1><a href="https://github.com/scala/async">scala async</a></h1>
+        <h1>Pro Tips</h1>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>def combined: Future[Int] = async {&#x000A;  val future1 = slowCalcFuture&#x000A;  val future2 = slowCalcFuture&#x000A;  await(future1) + await(future2)&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.runtime.universe._ &#x000A;val id = show(q"println()")&#x000A;val raw = showRaw(q"println()")</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -232,132 +280,75 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1><code>Dynamic</code></h1>
+        <h2>Scala 2.11</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>class AnythingGoes extends Dynamic {&#x000A;  def applyDynamic(selection: String)(args: Any*): Any =&#x000A;    println(s"You called $selection${args.mkString("(", ",", ")")}. Thanks!")&#x000A;}</textarea>
-    </p>
+        <h3>Smaller: slim down library</h3>
+        
+        <h3>Faster: speed up compiler</h3>
+        
+        <h3>Stabler: slow down change</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1><code>Dynamic</code> meets <code>macro</code></h1>
-        
-        <h2>By @paulp</h2>
-        
-        <pre>
-        scala> val dict = Dict.dict
-        dict: Dict = Dict(88629 words, 103040 definitions)
-        
-        // safe, unsafe, it's all the same if we know what we're doing
-        scala> dict.unsafeOracle.flibbertigibbet
-        res1: Definitions = 
-        flibbertigibbet
-        Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-        
-        scala> dict.safeOracle.flibbertigibbet
-        res2: Definitions = 
-        flibbertigibbet
-        Flib"ber*ti*gib`bet, n.Defn: An imp. Shak.
-        </pre>
+        <h3>Deprecated Aggressively</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1><code>Dynamic</code> meets <code>macro</code></h1>
+        <h3>Modularized standard library</h3>
         
-        <h2>By @paulp</h2>
+        <h4>scala-swing</h4>
         
-        <pre>
-        // it is when we make up supposed "crazy, made-up" words that we
-        // enjoy the difference
-        scala> dict.unsafeOracle.bippy
-        res3: Definitions = Runtime Vocabulary Failure: No Such Word
+        <h4>scala-parser-combinators</h4>
         
-        scala> dict.safeOracle.bippy
-        <console>:9: error: not found: "bippy"
-                      dict.safeOracle.bippy
-                           ^
-        </pre>
+        <h4>scala-xml –> roll your own!</h4>
         
-        
-        <p>typesafe proxy
-        https://gist.github.com/paulp/5265030</p>
+        <h4>scala-continuations[-plugin, -library]</h4>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Scala 2.11</h1>
+        <h2>scala-library</h2>
         
-        <h2>Smaller</h2>
+        <h3>2.10.4-RC1: 6.8 MB</h3>
         
-        <ul>
-        <li>Deprecated Aggressively</li>
-        </ul>
+        <h3>2.11.0-M7: 5.6 MB (82%)</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Scala 2.11</h1>
+        <h2>better incremental compiler</h2>
         
-        <h2>Smaller</h2>
-        
-        <ul>
-        <li>Modularized standard library
-        
-        <ul>
-        <li>(scala-actors)</li>
-        <li>scala-parser-combinators</li>
-        <li>scala-swing</li>
-        <li>scala-xml --> roll your own!</li>
-        <li>scala-continuations[-plugin, -library]</li>
-        </ul>
-        </li>
-        </ul>
+        <h3>@gkossakowski</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Scala 2.11</h1>
+        <h2>optimized compiler</h2>
         
-        <h2>Smaller</h2>
-        
-        <ul>
-        <li>scala-library
-        
-        <ul>
-        <li>2.10.4-RC1: 6.8 MB</li>
-        <li>2.11.0-M7: 5.6 MB (82%)</li>
-        </ul>
-        </li>
-        </ul>
+        <h3>@retronym</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Scala 2.11</h1>
+        <h2>better optimizer/codegen</h2>
         
-        <h2>Faster</h2>
+        <h3>@magarciaEPFL, @jamesiry</h3>
         
-        <ul>
-        <li>Incremental compiler<br>
-        (@gkossakowski)</li>
-        <li>Compiler optimization<br>
-        (@retronym)</li>
-        <li>Experimental better optimizer/codegen<br>
-        (@magarciaEPFL, @jamesiry)</li>
-        </ul>
+        <h2>(experimental)</h2>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -412,6 +403,7 @@
     <script src="deck.js/extensions/deck.js-codemirror/mode/xml/xml.js" type="text/javascript"></script>
     <script src="deck.js/extensions/deck.js-codemirror/mode/xmlpure/xmlpure.js" type="text/javascript"></script>
     <script src="deck.js/extensions/deck.js-codemirror/mode/yaml/yaml.js" type="text/javascript"></script>
+    <script src="deck.js/extensions/deck.js-codemirror/scala_completion.js" type="text/javascript"></script>
     <script src="deck.js/extensions/goto/deck.goto.js" type="text/javascript"></script>
     <script src="deck.js/extensions/hash/deck.hash.js" type="text/javascript"></script>
     <script src="deck.js/extensions/menu/deck.menu.js" type="text/javascript"></script>

@@ -73,7 +73,7 @@
         
         <h2>Quasiquotes</h2>
         
-        <h3>Denys Shabalin @den_sh</h3>
+        <h3>Denys Shabalin, @den_sh</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -215,7 +215,7 @@
         <h2>IDE friendliness</h2>
         
         <ul>
-        <li>for auto complete, IDE must run whitebox macro in target</li>
+        <li>to auto complete on whitebox macro, IDE must run it</li>
         <li>Scala IDE for Eclipse does this, sees expanded code</li>
         <li>friendly macro <a href="https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48">detects IDE</a>, reports errors, doesn't expand</li>
         <li>we're working on supporting this in the macro api/tools</li>
@@ -273,7 +273,11 @@
       <div class='content'>
         <h2>More examples</h2>
         
-        <h3><a href="http://scalamacros.org/paperstalks/2013-06-12-HalfYearInMacroParadise.pdf">Eugene's Scaladays talk</a></h3>
+        <h3><a href="http://scalamacros.org/paperstalks/2013-06-12-HalfYearInMacroParadise.pdf">Eugene's ScalaDays talk</a></h3>
+        
+        <h3><a href="http://skillsmatter.com/podcast/home/what-are-macros-good-for">Eugene's Scala eXchange talk</a></h3>
+        
+        <h3><a href="https://github.com/xeno-by/StrangeLoop2013/blob/master/slides/sessions/Burmako-EvolutionOfScalaMacros.pdf">Eugene's StrangeLoop talk</a></h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -298,7 +302,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='bigcode left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Run-time Reflection</h1>
@@ -308,14 +312,40 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>bigger example TODO</h1>
+        <h1>Bigger Example</h1>
         
-        <p>(Thanks @den_sh!)</p>
+        <p>(Thanks @den_sh &amp; @retronym!)</p>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import language.experimental.macros&#x000A;import scala.reflect.macros._&#x000A;&#x000A;trait AsTuple[T, U] {&#x000A;  def toTuple(t : T): U&#x000A;}&#x000A;&#x000A;object AsTuple {&#x000A;  implicit def materializeAsTuple[T, U]: AsTuple[T, U] = macro Tuplifier.materialize[T, U]&#x000A;}&#x000A;&#x000A;trait Tuplifier extends WhiteboxMacro {&#x000A;  import c.universe._&#x000A;  import definitions._&#x000A;  import Flag._&#x000A;&#x000A;  def materialize[T: c.WeakTypeTag, U: c.WeakTypeTag]: c.Tree /*c.Expr[AsTuple[T, U]]*/ = {&#x000A;    val T = c.weakTypeOf[T]&#x000A;    val sym = T.typeSymbol&#x000A;    if (!sym.isClass || !sym.asClass.isCaseClass) c.abort(c.enclosingPosition, s"$sym is not a case class")&#x000A;&#x000A;    val (fieldSels, fieldTypes) = sym.typeSignature.declarations.toList.collect { &#x000A;      case f: TermSymbol if f.isVal && f.isCaseAccessor => (q"t.${TermName(f.name.toString.trim)}", f.typeSignature)&#x000A;    }.unzip&#x000A;    q"""&#x000A;    new AsTuple[$T, (..$fieldTypes)] {&#x000A;     def toTuple(t: $T) = (..$fieldSels)&#x000A;    }&#x000A;    """&#x000A;  }&#x000A;}&#x000A;&#x000A;case class Person(name: String, age: Int)&#x000A;&#x000A;def tuplify[T, U](x: T)(implicit ev: AsTuple[T, U]): U = ev.toTuple(x)&#x000A;tuplify(Person("a", 1))</textarea>
+        <h2>Tuplification</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>case class Person(name: String, age: Int)&#x000A;tuplify(Person("a", 1)) == ("a", 1)</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='bigcode slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.experimental.macros&#x000A;import scala.reflect.macros._&#x000A;&#x000A;trait Helpers extends WhiteboxMacro { import c.universe._&#x000A;  object CaseField {&#x000A;    def unapply(f: TermSymbol): Option[(TermName,Type)] =&#x000A;      if (f.isVal && f.isCaseAccessor)&#x000A;        Some((TermName(f.name.toString.trim),&#x000A;              f.typeSignature))&#x000A;      else None&#x000A;  }&#x000A;&#x000A;  def validate(T: Type): Unit = {&#x000A;    val sym = T.typeSymbol&#x000A;    if (!(sym.isClass && sym.asClass.isCaseClass))&#x000A;      c.abort(c.enclosingPosition,&#x000A;               s"$sym is not a case class")&#x000A;  }&#x000A;}</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='bigcode slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <p><textarea class='code' display='none' mode='text/x-scala'>trait AsTuple[T, U] { def toTuple(t : T): U }&#x000A;object AsTuple {&#x000A;  implicit def materializeAsTuple[T, U]&#x000A;    :AsTuple[T, U] = macro Tuplify.meta[T, U]&#x000A;}&#x000A;&#x000A;trait Tuplify extends Helpers { import c.universe._&#x000A;  type WTT[t] = c.WeakTypeTag[t]&#x000A;  def meta[T: WTT, U: WTT]: c.Tree = {&#x000A;    val T = c.weakTypeOf[T]; validate(T)&#x000A;    val (sels, types) = T.declarations.collect { &#x000A;      case CaseField(f, tp) => (q"t.$f", tp)&#x000A;    }.unzip&#x000A;    q"""&#x000A;    new AsTuple[$T, (..$types)] {&#x000A;     def toTuple(t: $T) = (..$sels)&#x000A;    }&#x000A;    """&#x000A;  }&#x000A;}</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='bigcode slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <p><textarea class='code' display='none' mode='text/x-scala'>case class Person(name: String, age: Int)&#x000A;&#x000A;def tuplify[T, U](x: T)&#x000A;   (implicit ev: AsTuple[T, U]): U&#x000A;     = ev.toTuple(x)&#x000A;&#x000A;tuplify(Person("a", 1))</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -398,9 +428,9 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>last milestone: mid-January</h2>
+        <h2>M8, last milestone: Jan 10</h2>
         
-        <h2>RC: mid-February</h2>
+        <h2>RC1: Feb 14</h2>
       </div>
       <div class='spacer bottom'></div>
     </section>

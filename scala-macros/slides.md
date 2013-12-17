@@ -140,7 +140,7 @@ moody - 1
 
 !SLIDE
 ## IDE friendliness
-- for auto complete, IDE must run whitebox macro in target
+- to auto complete on whitebox macro, IDE must run it
 - Scala IDE for Eclipse does this, sees expanded code
 - friendly macro [detects IDE](https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48), reports errors, doesn't expand
 - we're working on supporting this in the macro api/tools
@@ -154,6 +154,9 @@ moody - 1
 - faster code: [foreach](https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala), [specialized](http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf), [fast || colls](https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal)
 - ~~boilerplate~~: [quasiquotes](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45), [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),[source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
 - tracing / testing: [expecty](https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala), [specs2](https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala), [scalatest](https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala)
+
+!NOTES
+http://infoscience.epfl.ch/record/185242/files/QuasiquotesForScala.pdf
 
 !SLIDE
 ## Static Checks
@@ -171,7 +174,9 @@ moody - 1
 !SLIDE
 
 ## More examples 
-###[Eugene's Scaladays talk](http://scalamacros.org/paperstalks/2013-06-12-HalfYearInMacroParadise.pdf)
+###[Eugene's ScalaDays talk](http://scalamacros.org/paperstalks/2013-06-12-HalfYearInMacroParadise.pdf)
+###[Eugene's Scala eXchange talk](http://skillsmatter.com/podcast/home/what-are-macros-good-for)
+###[Eugene's StrangeLoop talk](https://github.com/xeno-by/StrangeLoop2013/blob/master/slides/sessions/Burmako-EvolutionOfScalaMacros.pdf)
 
 !SLIDE left
 # Pro Tips
@@ -183,7 +188,7 @@ moody - 1
 - avoid `resetAttrs`, combine typed trees<br>(improving this = research)
 - unit test [using toolbox compiler](https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227)
 
-!SLIDE left
+!SLIDE bigcode left
 # Run-time Reflection
 
 ``` text/x-scala
@@ -197,48 +202,78 @@ val toolbox = reflect.runtime.currentMirror.mkToolBox()
 toolbox.eval(tree)
 ```
 
-!SLIDE
-#bigger example TODO
-(Thanks @den_sh!)
+!SLIDE left
+# Bigger Example
+(Thanks @den_sh & @retronym!)
 
+## Tuplification
+
+``` text/x-scala
+case class Person(name: String, age: Int)
+tuplify(Person("a", 1)) == ("a", 1)
+```
+
+!SLIDE bigcode
 ``` text/x-scala
 import language.experimental.macros
 import scala.reflect.macros._
 
-trait AsTuple[T, U] {
-  def toTuple(t : T): U
-}
+trait Helpers extends WhiteboxMacro { import c.universe._
+  object CaseField {
+    def unapply(f: TermSymbol): Option[(TermName,Type)] =
+      if (f.isVal && f.isCaseAccessor)
+        Some((TermName(f.name.toString.trim),
+              f.typeSignature))
+      else None
+  }
 
-object AsTuple {
-  implicit def materializeAsTuple[T, U]: AsTuple[T, U] = macro Tuplifier.materialize[T, U]
+  def validate(T: Type): Unit = {
+    val sym = T.typeSymbol
+    if (!(sym.isClass && sym.asClass.isCaseClass))
+      c.abort(c.enclosingPosition,
+               s"$sym is not a case class")
+  }
 }
 ```
 
+!SLIDE bigcode
 ``` text/x-scala
-trait Tuplifier extends WhiteboxMacro {
-  import c.universe._, definitions._, Flag._
+trait AsTuple[T, U] { def toTuple(t : T): U }
+object AsTuple {
+  implicit def materializeAsTuple[T, U]
+    :AsTuple[T, U] = macro Tuplify.meta[T, U]
+}
 
-  def materialize[T: c.WeakTypeTag, U: c.WeakTypeTag]: c.Tree = {
-    val T = c.weakTypeOf[T]
-    val sym = T.typeSymbol
-    if (!sym.isClass || !sym.asClass.isCaseClass) c.abort(c.enclosingPosition, s"$sym is not a case class")
-
-    val (fieldSels, fieldTypes) = sym.typeSignature.declarations.toList.collect { 
-      case f: TermSymbol if f.isVal && f.isCaseAccessor => (q"t.${TermName(f.name.toString.trim)}", f.typeSignature)
+trait Tuplify extends Helpers { import c.universe._
+  type WTT[t] = c.WeakTypeTag[t]
+  def meta[T: WTT, U: WTT]: c.Tree = {
+    val T = c.weakTypeOf[T]; validate(T)
+    val (sels, types) = T.declarations.collect { 
+      case CaseField(f, tp) => (q"t.$f", tp)
     }.unzip
     q"""
-    new AsTuple[$T, (..$fieldTypes)] {
-     def toTuple(t: $T) = (..$fieldSels)
+    new AsTuple[$T, (..$types)] {
+     def toTuple(t: $T) = (..$sels)
     }
     """
   }
 }
+```
 
+!SLIDE bigcode
+``` text/x-scala
 case class Person(name: String, age: Int)
 
-def tuplify[T, U](x: T)(implicit ev: AsTuple[T, U]): U = ev.toTuple(x)
+def tuplify[T, U](x: T)
+   (implicit ev: AsTuple[T, U]): U
+     = ev.toTuple(x)
+
 tuplify(Person("a", 1))
 ```
+
+!NOTES
+without quasiquotes: https://github.com/scalamacros/kepler/blob/7b890f71ecd0d28c1a1b81b7abfe8e0c11bfeb71/test/files/run/t5923c/Macros_1.scala
+
 
 !SLIDE
 ## BTW! Scala 2.11
@@ -277,8 +312,8 @@ tuplify(Person("a", 1))
 
 
 !SLIDE
-## last milestone: mid-January
-## RC: mid-February
+## M8, last milestone: Jan 10
+## RC1: Feb 14
 
 !SLIDE
 # Thanks!

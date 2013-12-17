@@ -65,6 +65,21 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h1>Credit</h1>
+        
+        <h2>Macros</h2>
+        
+        <h3>Eugene Burmako, @xeno-by</h3>
+        
+        <h2>Quasiquotes</h2>
+        
+        <h3>Denys Shabalin @den_sh</h3>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
         <h1>Macro: two-faced <code>$%#</code></h1>
         
         <h2>a definition</h2>
@@ -74,7 +89,7 @@
         
         <h2>meta-program</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Tree = { &#x000A;  import c.universe._; q"{}"&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Tree = { &#x000A;  import c.universe._; q"{}"&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -96,7 +111,7 @@
         
         <ul>
         <li>has access to the compiler's guts via <code>ctx</code></li>
-        <li>yields a <em>representation</em> of expression of type <code>T</code>,<br>
+        <li>yields a <em>representation</em> of an expression,<br>
         in the current reflection universe<br>
         (type depends on path <code>ctx</code>)</li>
         </ul>
@@ -106,7 +121,7 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>quasi-quotes</h2>
+        <h2>quasiquotes</h2>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;q"{}" // quasi-quote</textarea>
     </p>
@@ -148,7 +163,7 @@
         except for:
         
         <ul>
-        <li>error/warning messages</li>
+        <li>error/warning messages (or compiler crashes)</li>
         <li>code generation</li>
         </ul>
         </li>
@@ -168,7 +183,7 @@
         <ul>
         <li>expansion determines type of macro call</li>
         <li>guides implicit search</li>
-        <li>type inference delayed until after expansion</li>
+        <li>full type inference delayed until after expansion</li>
         <li>can be used in pattern match</li>
         </ul>
       </div>
@@ -179,7 +194,7 @@
       <div class='content'>
         <h2>wild<code>^W</code>whitebox</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._, scala.util.Random&#x000A;def moodyMeta(c: WhiteboxContext): c.Tree = {&#x000A;  import c.universe._&#x000A;  if (Random.nextFloat > 0.5) q"1"&#x000A;  else q""""one""""&#x000A;}&#x000A;&#x000A;def moody = macro moodyMeta</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.macros._, scala.util.Random&#x000A;def moodyMeta(c: WhiteboxContext): c.Tree = {&#x000A;  import c.universe._&#x000A;  if (Random.nextFloat > 0.5) q"1"&#x000A;  else q""""one""""&#x000A;}&#x000A;&#x000A;def moody = macro moodyMeta</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -194,7 +209,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>IDE friendliness</h2>
@@ -208,26 +223,29 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Applications</h1>
-        
+        <h2>Applications</h2>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
         <h2>Code Generation</h2>
         
         <ul>
         <li>faster code: <a href="https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala">foreach</a>, <a href="http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf">specialized</a>, <a href="https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal">fast || colls</a></li>
-        <li><del>boilerplate</del>: <a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45">quasi-quotes</a>, <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
+        <li><del>boilerplate</del>: <a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45">quasiquotes</a>, <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
         <li>tracing / testing: <a href="https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala">expecty</a>, <a href="https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala">specs2</a>, <a href="https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala">scalatest</a></li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Applications</h1>
-        
         <h2>Static Checks</h2>
         
         <ul>
@@ -237,11 +255,9 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Applications</h1>
-        
         <h2>DSLs</h2>
         
         <ul>
@@ -252,16 +268,31 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>More examples</h2>
+        
+        <h3><a href="http://scalamacros.org/paperstalks/2013-06-12-HalfYearInMacroParadise.pdf">Eugene's Scaladays talk</a></h3>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h1>Pro Tips</h1>
         
         <ul>
-        <li>use quasi-quotes</li>
-        <li>mind your hygiene<br>(name's not as unique as you think, symbol is)</li>
+        <li>use quasiquotes</li>
+        <li>mind your hygiene
+        
+        <ul>
+        <li>be fresh with <code>freshName</code></li>
+        <li>qualify fully, start at <code>_root_</code></li>
+        </ul>
+        </li>
         <li>prototype using <code>:power</code> and runtime reflection</li>
-        <li>avoid <code>resetAttr</code>, combine typed trees<br>(improving this = research)</li>
+        <li>avoid <code>resetAttrs</code>, combine typed trees<br>(improving this = research)</li>
         <li>unit test <a href="https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227">using toolbox compiler</a></li>
         </ul>
       </div>
@@ -272,7 +303,7 @@
       <div class='content'>
         <h1>Run-time Reflection</h1>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.runtime.universe._, scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox = reflect.runtime.currentMirror.mkToolBox()&#x000A;toolbox.eval(tree)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.runtime.universe._, scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox = reflect.runtime.currentMirror.mkToolBox()&#x000A;toolbox.eval(tree)</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -282,9 +313,9 @@
       <div class='content'>
         <h1>bigger example TODO</h1>
         
-        <h2>bundle syntax</h2>
+        <p>(Thanks @den_sh!)</p>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;trait Macros extends BlackboxMacro {&#x000A;  import c.universe._&#x000A;  def fooMeta(): Tree = q"{}"&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.experimental.macros&#x000A;import scala.reflect.macros._&#x000A;&#x000A;trait AsTuple[T, U] {&#x000A;  def toTuple(t : T): U&#x000A;}&#x000A;&#x000A;object AsTuple {&#x000A;  implicit def materializeAsTuple[T, U]: AsTuple[T, U] = macro Tuplifier.materialize[T, U]&#x000A;}&#x000A;&#x000A;trait Tuplifier extends WhiteboxMacro {&#x000A;  import c.universe._&#x000A;  import definitions._&#x000A;  import Flag._&#x000A;&#x000A;  def materialize[T: c.WeakTypeTag, U: c.WeakTypeTag]: c.Tree /*c.Expr[AsTuple[T, U]]*/ = {&#x000A;    val T = c.weakTypeOf[T]&#x000A;    val sym = T.typeSymbol&#x000A;    if (!sym.isClass || !sym.asClass.isCaseClass) c.abort(c.enclosingPosition, s"$sym is not a case class")&#x000A;&#x000A;    val (fieldSels, fieldTypes) = sym.typeSignature.declarations.toList.collect { &#x000A;      case f: TermSymbol if f.isVal && f.isCaseAccessor => (q"t.${TermName(f.name.toString.trim)}", f.typeSignature)&#x000A;    }.unzip&#x000A;    q"""&#x000A;    new AsTuple[$T, (..$fieldTypes)] {&#x000A;     def toTuple(t: $T) = (..$fieldSels)&#x000A;    }&#x000A;    """&#x000A;  }&#x000A;}&#x000A;&#x000A;case class Person(name: String, age: Int)&#x000A;&#x000A;def tuplify[T, U](x: T)(implicit ev: AsTuple[T, U]): U = ev.toTuple(x)&#x000A;tuplify(Person("a", 1))</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -292,7 +323,7 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>Scala 2.11</h2>
+        <h2>BTW! Scala 2.11</h2>
         
         <h3>Smaller: slim down library</h3>
         

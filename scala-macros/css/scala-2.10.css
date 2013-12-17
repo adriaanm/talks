@@ -25,6 +25,8 @@
   background-color: #000 !important;
 }
 
+.tsblue { color: #7bdcf5; }
+
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900,400italic,600italic,700italic,900italic);
 
 .keydown.deck-container .slide.top .spacer.top {

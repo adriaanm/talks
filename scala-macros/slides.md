@@ -29,6 +29,7 @@
 ``` text/x-scala
 def foo = macro fooMeta
 ```
+
 ## meta-program
 
 ``` text/x-scala
@@ -37,6 +38,9 @@ def fooMeta(c: BlackboxContext): c.Expr[Unit] = {
   import c.universe._; c.Expr(q"""{}""")
 }
 ```
+
+!NOTES
+import scala.language.experimental.macros
 
 !SLIDE
 ## **meta:** greek for<br>"code analysing/generating code"
@@ -48,8 +52,12 @@ def fooMeta(c: BlackboxContext): c.Expr[Unit] = {
 def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]
 ```
 
-- can access meta-level, aka compiler's guts (ctx)
-- `ctx.Expr[T]` is the *representation* of an expression of type T
+- can access meta-level, aka the compiler's guts (`ctx`)
+- yields a `ctx.Expr[T]`, *representation* of expression `: T`,<br>
+in the current reflection universe (type depends on path `ctx`)
+
+!NOTES
+in the compiler, the `universe` is called `global`
 
 !SLIDE
 ## quasi-quotes
@@ -64,28 +72,6 @@ c.Expr(
 `q"""{}"""` is the data structure (AST)<br>
 that represents the Scala program `{}`
 
-!SLIDE left
-## meta-program
-### BlackboxContext: benign
-- can understand macro call without knowing its expansion
-- macro call behaves just like method call
-- cognitive burden low, IDEs aren't bothered
-- can still emit errors/warnings
-
-!SLIDE left
-## meta-program
-### WhiteboxContext: wildcard
-Macro expansion required to:
-- determine type of macro invocation
-- perform type inference (delayed until after expansion)
-- resolve implicits 
-- compile pattern match
- 
-!NOTES
-source location: https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala
-extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c51f27d80d9cf980dc
-(rely on name-based patmat: https://github.com/scala/scala/pull/2848)
-
 !SLIDE
 ## macro invocation
 
@@ -99,39 +85,56 @@ class C { def m = foo }
 :javap -c C
 ```
 
+!SLIDE left
+## meta-program
+### BlackboxContext: benign
+Program understanding doesn't require macro expansion:
+
+- macro invocation = normal method invocation,<br>
+  modulo:
+  - code generation
+  - error/warning messages
+- thus, cognitive burden low, IDEs aren't bothered
+
+!SLIDE left
+## meta-program
+### WhiteboxContext: wildcard
+Type checking depends on details of macro expansion:
+
+- macro fully determines type of expansion
+- type inference is delayed until after expansion
+- implicit search
+- pattern match compilation
+ 
 !NOTES
-# Macros are experimental
+source location: https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala
+extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c51f27d80d9cf980dc
+(rely on name-based patmat: https://github.com/scala/scala/pull/2848)
 
-``` text/x-scala
-import scala.language.experimental.macros
-import scala.reflect.macros.Context
-```
 
-!SLIDE
-# Example #0
-## Macro Implementation
-``` text/x-scala
-def noopImpl(c: Context)
-    (x: c.Expr[Any]): c.Expr[Unit] = { import c.universe._
- c.Expr(q"""{}""")
-}
-```
 
-!SLIDE
-# Example #0
-## Macro Def
-``` text/x-scala
-def noop(x: Any): Unit = macro noopImpl
+!SLIDE left
+# Applications
+## Code Generation
 
-class Test { def t = noop("x") }
-```
+  - faster code: foreach, specialized, `||` colls
+  - scrap boilerplate: play's json inception
+  - tracing / logging: expecty
 
-!SLIDE
-# Example #0
-## Macro Expansion
-``` text/x-scala
-:javap -c Test
-```
+!SLIDE left
+# Applications
+## Checking Code
+
+  - spores: closure doesn't capture (accidentally)
+
+!SLIDE left
+# Applications
+## Checking Code
+
+  - DSL
+    - SBT
+    - async
+    - language virtualization
 
 !SLIDE
 # [scala async](https://github.com/scala/async)

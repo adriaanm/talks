@@ -44,8 +44,10 @@
 }
 
 .deck-container .slide.bigcode .CodeMirror  {
-  margin-left: -75px;
-  width: 98%;
+  position: relative;
+  left: 0px;
+  top: 0px;
+/*  width: 90%;*/
 }
 
 

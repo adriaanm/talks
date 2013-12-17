@@ -1,4 +1,4 @@
-.deck-container .deck-prev-link, .deck-container .deck-next-link {
+/*.deck-container .deck-prev-link, .deck-container .deck-next-link {
   display: none;
   position: absolute;
   z-index: 3;
@@ -41,3 +41,4 @@
     display: none !important;
   }
 }
+*/

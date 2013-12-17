@@ -59,7 +59,7 @@
 /*  text-decoration: underline;*/
   border-bottom: 3px solid #A10A00;
 }
-.deck-container .deck-prev-link, .deck-container .deck-next-link {
+/*.deck-container .deck-prev-link, .deck-container .deck-next-link {
   background: #ccc;
   font-family: serif;
 }
@@ -69,7 +69,7 @@
 .deck-container .deck-prev-link:hover, .deck-container .deck-prev-link:focus, .deck-container .deck-next-link:hover, .deck-container .deck-next-link:focus {
   background: #A10A00;
   text-decoration: none;
-}
+}*/
 .deck-container .deck-status {
   font-size: 0.6666em;
 }

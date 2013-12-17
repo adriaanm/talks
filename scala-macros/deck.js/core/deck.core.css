@@ -5,9 +5,9 @@ html {
 .deck-container {
   position: relative;
   height: 100%;
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 0 px;
   font-size: 16px;
   line-height: 1.25;
   overflow: hidden;

@@ -27,15 +27,15 @@
 ## a definition
 
 ``` text/x-scala
-def foo = macro fooMeta
+def foo: Unit = macro fooMeta
 ```
 
 ## meta-program
 
 ``` text/x-scala
 import reflect.macros._
-def fooMeta(c: BlackboxContext): c.Expr[Unit] = { 
-  import c.universe._; c.Expr(q"{}")
+def fooMeta(c: BlackboxContext): c.Tree = { 
+  import c.universe._; q"{}"
 }
 ```
 
@@ -49,7 +49,7 @@ import scala.language.experimental.macros
 ## meta-program
 
 ``` text/x-scala
-def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]
+def fooMeta(ctx: BlackboxContext): ctx.Tree
 ```
 
 - has access to the compiler's guts via `ctx`
@@ -65,15 +65,12 @@ in the compiler, the `universe` is called `global`
 
 ``` text/x-scala
 import c.universe._ // oh hi, I'm in your compiler!
-c.Expr(
-  q"{}" // quasi-quote
-)
+q"{}" // quasi-quote
 ```
 
 - `c.universe`: the compiler/reflection cake
 - `q"{}"`: the data structure (AST) that<br>
 represents the Scala program `{}`
-- `c.Expr` demarcates the meta-level boundary
 
 !SLIDE left
 ## macro invocation
@@ -120,12 +117,10 @@ extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c5
 
 ``` text/x-scala
 import reflect.macros._, scala.util.Random
-def moodyMeta(c: WhiteboxContext): c.Expr[Any] = {
+def moodyMeta(c: WhiteboxContext): c.Tree = {
   import c.universe._
-  c.Expr(
-    if (Random.nextFloat > 0.5) q"1"
-    else q""""one""""
-  )
+  if (Random.nextFloat > 0.5) q"1"
+  else q""""one""""
 }
 
 def moody = macro moodyMeta
@@ -142,13 +137,14 @@ moody - 1
 - for auto complete, IDE must run whitebox macro in target
 - Scala IDE for Eclipse does this, sees expanded code
 - friendly macro [detects IDE](https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48), reports errors, doesn't expand
+- we're working on supporting this in the macro api/tools
 
 !SLIDE left
 # Applications
 ## Code Generation
 
   - faster code: [foreach](https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala), [specialized](http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf), [fast || colls](https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal)
-  - ~~boilerplate~~: [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),[source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
+  - ~~boilerplate~~: [quasi-quotes](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45), [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),[source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
   - tracing / testing: [expecty](https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala), [specs2](https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala), [scalatest](https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala)
 
 !SLIDE left
@@ -169,10 +165,10 @@ moody - 1
 
 !SLIDE left
 # Pro Tips
-- avoid `resetAttr`, combine typed trees
 - use quasi-quotes
-- mind your hygiene (name's not as unique as you think)
-- prototype using `:power` and runtime reflection 
+- mind your hygiene<br>(name's not as unique as you think, symbol is)
+- prototype using `:power` and runtime reflection
+- avoid `resetAttr`, combine typed trees<br>(improving this = research)
 - unit test [using toolbox compiler](https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227)
 
 !SLIDE left
@@ -187,6 +183,17 @@ val raw = showRaw(tree)
 
 val toolbox = reflect.runtime.currentMirror.mkToolBox()
 toolbox.eval(tree)
+```
+
+!SLIDE
+#bigger example TODO
+##bundle syntax
+``` text/x-scala
+import reflect.macros._
+trait Macros extends BlackboxMacro {
+  import c.universe._
+  def fooMeta(): Tree = q"{}"
+}
 ```
 
 !SLIDE
@@ -226,7 +233,7 @@ toolbox.eval(tree)
 
 
 !SLIDE
-## eighth & last milestone: mid-January
+## last milestone: mid-January
 ## RC: mid-February
 
 !SLIDE

@@ -69,12 +69,12 @@
         
         <h2>a definition</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>def foo = macro fooMeta</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>def foo: Unit = macro fooMeta</textarea>
     </p>
         
         <h2>meta-program</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Expr[Unit] = { &#x000A;  import c.universe._; c.Expr(q"{}")&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Tree = { &#x000A;  import c.universe._; q"{}"&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -91,7 +91,7 @@
       <div class='content'>
         <h2>meta-program</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>def fooMeta(ctx: BlackboxContext): ctx.Expr[Unit]</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>def fooMeta(ctx: BlackboxContext): ctx.Tree</textarea>
     </p>
         
         <ul>
@@ -108,14 +108,13 @@
       <div class='content'>
         <h2>quasi-quotes</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;c.Expr(&#x000A;  q"{}" // quasi-quote&#x000A;)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import c.universe._ // oh hi, I'm in your compiler!&#x000A;q"{}" // quasi-quote</textarea>
     </p>
         
         <ul>
         <li><code>c.universe</code>: the compiler/reflection cake</li>
         <li><code>q"{}"</code>: the data structure (AST) that<br>
         represents the Scala program <code>{}</code></li>
-        <li><code>c.Expr</code> demarcates the meta-level boundary</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -180,7 +179,7 @@
       <div class='content'>
         <h2>wild<code>^W</code>whitebox</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._, scala.util.Random&#x000A;def moodyMeta(c: WhiteboxContext): c.Expr[Any] = {&#x000A;  import c.universe._&#x000A;  c.Expr(&#x000A;    if (Random.nextFloat > 0.5) q"1"&#x000A;    else q""""one""""&#x000A;  )&#x000A;}&#x000A;&#x000A;def moody = macro moodyMeta</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._, scala.util.Random&#x000A;def moodyMeta(c: WhiteboxContext): c.Tree = {&#x000A;  import c.universe._&#x000A;  if (Random.nextFloat > 0.5) q"1"&#x000A;  else q""""one""""&#x000A;}&#x000A;&#x000A;def moody = macro moodyMeta</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -204,6 +203,7 @@
         <li>for auto complete, IDE must run whitebox macro in target</li>
         <li>Scala IDE for Eclipse does this, sees expanded code</li>
         <li>friendly macro <a href="https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48">detects IDE</a>, reports errors, doesn't expand</li>
+        <li>we're working on supporting this in the macro api/tools</li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -217,7 +217,7 @@
         
         <ul>
         <li>faster code: <a href="https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala">foreach</a>, <a href="http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf">specialized</a>, <a href="https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal">fast || colls</a></li>
-        <li><del>boilerplate</del>: <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
+        <li><del>boilerplate</del>: <a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45">quasi-quotes</a>, <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
         <li>tracing / testing: <a href="https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala">expecty</a>, <a href="https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala">specs2</a>, <a href="https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala">scalatest</a></li>
         </ul>
       </div>
@@ -258,10 +258,10 @@
         <h1>Pro Tips</h1>
         
         <ul>
-        <li>avoid <code>resetAttr</code>, combine typed trees</li>
         <li>use quasi-quotes</li>
-        <li>mind your hygiene (name's not as unique as you think)</li>
+        <li>mind your hygiene<br>(name's not as unique as you think, symbol is)</li>
         <li>prototype using <code>:power</code> and runtime reflection</li>
+        <li>avoid <code>resetAttr</code>, combine typed trees<br>(improving this = research)</li>
         <li>unit test <a href="https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227">using toolbox compiler</a></li>
         </ul>
       </div>
@@ -270,9 +270,21 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Pro Tips</h1>
+        <h1>Run-time Reflection</h1>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.runtime.universe._ &#x000A;val id = show(q"println()")&#x000A;val raw = showRaw(q"println()")</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.runtime.universe._, scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox = reflect.runtime.currentMirror.mkToolBox()&#x000A;toolbox.eval(tree)</textarea>
+    </p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h1>bigger example TODO</h1>
+        
+        <h2>bundle syntax</h2>
+        
+        <p><textarea class='code' display='none' mode='text/x-scala'>import reflect.macros._&#x000A;trait Macros extends BlackboxMacro {&#x000A;  import c.universe._&#x000A;  def fooMeta(): Tree = q"{}"&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -355,6 +367,15 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
+        <h2>last milestone: mid-January</h2>
+        
+        <h2>RC: mid-February</h2>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
         <h1>Thanks!</h1>
         
         <h1>Questions!</h1>
@@ -403,7 +424,6 @@
     <script src="deck.js/extensions/deck.js-codemirror/mode/xml/xml.js" type="text/javascript"></script>
     <script src="deck.js/extensions/deck.js-codemirror/mode/xmlpure/xmlpure.js" type="text/javascript"></script>
     <script src="deck.js/extensions/deck.js-codemirror/mode/yaml/yaml.js" type="text/javascript"></script>
-    <script src="deck.js/extensions/deck.js-codemirror/scala_completion.js" type="text/javascript"></script>
     <script src="deck.js/extensions/goto/deck.goto.js" type="text/javascript"></script>
     <script src="deck.js/extensions/hash/deck.hash.js" type="text/javascript"></script>
     <script src="deck.js/extensions/menu/deck.menu.js" type="text/javascript"></script>

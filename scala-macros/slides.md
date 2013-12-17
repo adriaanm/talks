@@ -28,15 +28,15 @@
 ### Denys Shabalin, @den_sh
 
 !SLIDE
-# Macro: two-faced `$%#`
+## Macro: two-faced `$%#`
 
-## a definition
+### a definition
 
 ``` text/x-scala
 def foo: Unit = macro fooMeta
 ```
 
-## meta-program
+### meta-program
 
 ``` text/x-scala
 import scala.reflect.macros._
@@ -92,8 +92,8 @@ class C { def m = foo }
 ```
 
 !SLIDE left
-## meta-program
-### BlackboxContext: "**b**enign"
+## BlackboxContext: "**b**enign"
+No need to look inside.
 
 - ignore macros when reading code
 - type checking, IDE unaffected
@@ -103,9 +103,8 @@ class C { def m = foo }
   - code generation
 
 !SLIDE left
-## meta-program
-### WhiteboxContext: "**w**ildcard"
-Macro expansion interferes with type checking, IDE.
+## WhiteboxContext: "**w**ildcard"
+See your true internals shining through.
 
 - expansion determines type of macro call
 - guides implicit search
@@ -139,11 +138,21 @@ moody - 1
 ```
 
 !SLIDE
-## IDE friendliness
-- to auto complete on whitebox macro, IDE must run it
-- Scala IDE for Eclipse does this, sees expanded code
-- friendly macro [detects IDE](https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48), reports errors, doesn't expand
-- we're working on supporting this in the macro api/tools
+## To auto complete<br>on whitebox macro,
+IDE must run it.
+
+!SLIDE
+## Scala IDE for Eclipse<br>does this,
+sees expanded code.
+
+!SLIDE
+## Friendly macro [detects IDE](https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48),
+reports errors, doesn't expand.
+
+!SLIDE
+## WIP
+### IDE support in macro API
+### Macro support in IDE
 
 !SLIDE
 ## Applications
@@ -192,13 +201,16 @@ http://infoscience.epfl.ch/record/185242/files/QuasiquotesForScala.pdf
 # Run-time Reflection
 
 ``` text/x-scala
-import scala.reflect.runtime.universe._, scala.tools.reflect._
+import scala.reflect.runtime.universe._
+import scala.tools.reflect._
 
 val tree = q"println(1)"
 val id = show(tree)
 val raw = showRaw(tree)
 
-val toolbox = reflect.runtime.currentMirror.mkToolBox()
+val toolbox =
+ reflect.runtime.currentMirror.mkToolBox()
+
 toolbox.eval(tree)
 ```
 
@@ -210,29 +222,34 @@ toolbox.eval(tree)
 
 ``` text/x-scala
 case class Person(name: String, age: Int)
+
 tuplify(Person("a", 1)) == ("a", 1)
 ```
+
+!NOTES 
+please forgive my crimes against indentation
 
 !SLIDE bigcode
 ``` text/x-scala
 import language.experimental.macros
 import scala.reflect.macros._
 
-trait Helpers extends WhiteboxMacro { import c.universe._
-  object CaseField {
-    def unapply(f: TermSymbol): Option[(TermName,Type)] =
-      if (f.isVal && f.isCaseAccessor)
-        Some((TermName(f.name.toString.trim),
-              f.typeSignature))
-      else None
-  }
+trait Helpers extends WhiteboxMacro {
+import c.universe._
+object CaseField {
+  def unapply(f: TermSymbol):Option[(TermName,Type)]=
+    if (f.isVal && f.isCaseAccessor)
+      Some((TermName(f.name.toString.trim),
+            f.typeSignature))
+    else None
+}
 
-  def validate(T: Type): Unit = {
-    val sym = T.typeSymbol
-    if (!(sym.isClass && sym.asClass.isCaseClass))
-      c.abort(c.enclosingPosition,
-               s"$sym is not a case class")
-  }
+def validate(T: Type): Unit = {
+  val sym = T.typeSymbol
+  if (!(sym.isClass && sym.asClass.isCaseClass))
+    c.abort(c.enclosingPosition,
+             s"$sym is not a case class")
+}
 }
 ```
 
@@ -240,13 +257,12 @@ trait Helpers extends WhiteboxMacro { import c.universe._
 ``` text/x-scala
 trait AsTuple[T, U] { def toTuple(t : T): U }
 object AsTuple {
-  implicit def materializeAsTuple[T, U]
-    :AsTuple[T, U] = macro Tuplify.meta[T, U]
+  implicit def mtrlz[T, U]: AsTuple[T, U] =
+    macro Tuplify.meta[T]
 }
 
 trait Tuplify extends Helpers { import c.universe._
-  type WTT[t] = c.WeakTypeTag[t]
-  def meta[T: WTT, U: WTT]: c.Tree = {
+  def meta[T: c.WeakTypeTag]: c.Tree = {
     val T = c.weakTypeOf[T]; validate(T)
     val (sels, types) = T.declarations.collect { 
       case CaseField(f, tp) => (q"t.$f", tp)

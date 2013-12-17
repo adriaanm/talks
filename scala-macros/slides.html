@@ -80,14 +80,14 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Macro: two-faced <code>$%#</code></h1>
+        <h2>Macro: two-faced <code>$%#</code></h2>
         
-        <h2>a definition</h2>
+        <h3>a definition</h3>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>def foo: Unit = macro fooMeta</textarea>
     </p>
         
-        <h2>meta-program</h2>
+        <h3>meta-program</h3>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.macros._&#x000A;def fooMeta(c: BlackboxContext): c.Tree = { &#x000A;  import c.universe._; q"{}"&#x000A;}</textarea>
     </p>
@@ -152,9 +152,9 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>meta-program</h2>
+        <h2>BlackboxContext: "<strong>b</strong>enign"</h2>
         
-        <h3>BlackboxContext: "<strong>b</strong>enign"</h3>
+        <p>No need to look inside.</p>
         
         <ul>
         <li>ignore macros when reading code</li>
@@ -174,11 +174,9 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>meta-program</h2>
+        <h2>WhiteboxContext: "<strong>w</strong>ildcard"</h2>
         
-        <h3>WhiteboxContext: "<strong>w</strong>ildcard"</h3>
-        
-        <p>Macro expansion interferes with type checking, IDE.</p>
+        <p>See your true internals shining through.</p>
         
         <ul>
         <li>expansion determines type of macro call</li>
@@ -212,14 +210,38 @@
     <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h2>IDE friendliness</h2>
+        <h2>To auto complete<br>on whitebox macro,</h2>
         
-        <ul>
-        <li>to auto complete on whitebox macro, IDE must run it</li>
-        <li>Scala IDE for Eclipse does this, sees expanded code</li>
-        <li>friendly macro <a href="https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48">detects IDE</a>, reports errors, doesn't expand</li>
-        <li>we're working on supporting this in the macro api/tools</li>
-        </ul>
+        <p>IDE must run it.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>Scala IDE for Eclipse<br>does this,</h2>
+        
+        <p>sees expanded code.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>Friendly macro <a href="https://github.com/scala/async/blob/master/src/main/scala/scala/async/internal/AsyncBase.scala#L48">detects IDE</a>,</h2>
+        
+        <p>reports errors, doesn't expand.</p>
+      </div>
+      <div class='spacer bottom'></div>
+    </section>
+    <section class='slide'>
+      <div class='spacer top'></div>
+      <div class='content'>
+        <h2>WIP</h2>
+        
+        <h3>IDE support in macro API</h3>
+        
+        <h3>Macro support in IDE</h3>
       </div>
       <div class='spacer bottom'></div>
     </section>
@@ -307,7 +329,7 @@
       <div class='content'>
         <h1>Run-time Reflection</h1>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.runtime.universe._, scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox = reflect.runtime.currentMirror.mkToolBox()&#x000A;toolbox.eval(tree)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.runtime.universe._&#x000A;import scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox =&#x000A; reflect.runtime.currentMirror.mkToolBox()&#x000A;&#x000A;toolbox.eval(tree)</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -321,7 +343,7 @@
         
         <h2>Tuplification</h2>
         
-        <p><textarea class='code' display='none' mode='text/x-scala'>case class Person(name: String, age: Int)&#x000A;tuplify(Person("a", 1)) == ("a", 1)</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>case class Person(name: String, age: Int)&#x000A;&#x000A;tuplify(Person("a", 1)) == ("a", 1)</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -329,7 +351,7 @@
     <section class='bigcode slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <p><textarea class='code' display='none' mode='text/x-scala'>import language.experimental.macros&#x000A;import scala.reflect.macros._&#x000A;&#x000A;trait Helpers extends WhiteboxMacro { import c.universe._&#x000A;  object CaseField {&#x000A;    def unapply(f: TermSymbol): Option[(TermName,Type)] =&#x000A;      if (f.isVal && f.isCaseAccessor)&#x000A;        Some((TermName(f.name.toString.trim),&#x000A;              f.typeSignature))&#x000A;      else None&#x000A;  }&#x000A;&#x000A;  def validate(T: Type): Unit = {&#x000A;    val sym = T.typeSymbol&#x000A;    if (!(sym.isClass && sym.asClass.isCaseClass))&#x000A;      c.abort(c.enclosingPosition,&#x000A;               s"$sym is not a case class")&#x000A;  }&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>import language.experimental.macros&#x000A;import scala.reflect.macros._&#x000A;&#x000A;trait Helpers extends WhiteboxMacro {&#x000A;import c.universe._&#x000A;object CaseField {&#x000A;  def unapply(f: TermSymbol):Option[(TermName,Type)]=&#x000A;    if (f.isVal && f.isCaseAccessor)&#x000A;      Some((TermName(f.name.toString.trim),&#x000A;            f.typeSignature))&#x000A;    else None&#x000A;}&#x000A;&#x000A;def validate(T: Type): Unit = {&#x000A;  val sym = T.typeSymbol&#x000A;  if (!(sym.isClass && sym.asClass.isCaseClass))&#x000A;    c.abort(c.enclosingPosition,&#x000A;             s"$sym is not a case class")&#x000A;}&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
@@ -337,7 +359,7 @@
     <section class='bigcode slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <p><textarea class='code' display='none' mode='text/x-scala'>trait AsTuple[T, U] { def toTuple(t : T): U }&#x000A;object AsTuple {&#x000A;  implicit def materializeAsTuple[T, U]&#x000A;    :AsTuple[T, U] = macro Tuplify.meta[T, U]&#x000A;}&#x000A;&#x000A;trait Tuplify extends Helpers { import c.universe._&#x000A;  type WTT[t] = c.WeakTypeTag[t]&#x000A;  def meta[T: WTT, U: WTT]: c.Tree = {&#x000A;    val T = c.weakTypeOf[T]; validate(T)&#x000A;    val (sels, types) = T.declarations.collect { &#x000A;      case CaseField(f, tp) => (q"t.$f", tp)&#x000A;    }.unzip&#x000A;    q"""&#x000A;    new AsTuple[$T, (..$types)] {&#x000A;     def toTuple(t: $T) = (..$sels)&#x000A;    }&#x000A;    """&#x000A;  }&#x000A;}</textarea>
+        <p><textarea class='code' display='none' mode='text/x-scala'>trait AsTuple[T, U] { def toTuple(t : T): U }&#x000A;object AsTuple {&#x000A;  implicit def mtrlz[T, U]: AsTuple[T, U] =&#x000A;    macro Tuplify.meta[T]&#x000A;}&#x000A;&#x000A;trait Tuplify extends Helpers { import c.universe._&#x000A;  def meta[T: c.WeakTypeTag]: c.Tree = {&#x000A;    val T = c.weakTypeOf[T]; validate(T)&#x000A;    val (sels, types) = T.declarations.collect { &#x000A;      case CaseField(f, tp) => (q"t.$f", tp)&#x000A;    }.unzip&#x000A;    q"""&#x000A;    new AsTuple[$T, (..$types)] {&#x000A;     def toTuple(t: $T) = (..$sels)&#x000A;    }&#x000A;    """&#x000A;  }&#x000A;}</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>

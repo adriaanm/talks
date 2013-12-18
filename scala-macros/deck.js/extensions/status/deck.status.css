@@ -1,9 +1,11 @@
 .deck-container .deck-status {
   position: fixed;
-  bottom: -60px;
-  right: -10px;
-  color: #888;
-  z-index: 3;
+  bottom: 20px;
+  right: 20px;
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 4;
   margin: 0;
 }
 

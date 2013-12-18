@@ -51,7 +51,7 @@ import scala.language.experimental.macros
 !SLIDE
 ## <span class="tsblue">**meta**</span> &nbsp;&nbsp;&nbsp; greek for<br>"code analysing/generating code"
 
-!SLIDE left
+!SLIDE
 ## meta-program
 
 ``` text/x-scala
@@ -66,7 +66,7 @@ in the current reflection universe<br>
 !NOTES
 in the compiler, the `universe` is called `global`
 
-!SLIDE left
+!SLIDE
 ## quasiquotes
 
 ``` text/x-scala
@@ -78,7 +78,7 @@ q"{}" // quasi-quote
 - `q"{}"`: the data structure (AST) that<br>
 represents the Scala program `{}`
 
-!SLIDE left
+!SLIDE
 ## macro invocation
 
 replaced by its expansion, as defined by the macro
@@ -117,7 +117,7 @@ extractor macros: https://github.com/paulp/scala/commit/84a335916556cb0fe939d1c5
 (rely on name-based patmat: https://github.com/scala/scala/pull/2848)
 
 
-!SLIDE left
+!SLIDE
 ## wild`^W`whitebox
 
 ``` text/x-scala
@@ -161,7 +161,7 @@ reports errors, doesn't expand.
 ## Code Generation
 
 - faster code: [foreach](https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala), [specialized](http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf), [fast || colls](https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal)
-- ~~boilerplate~~: [quasiquotes](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45), [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),[source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
+- ~~boilerplate~~: [play's json inception](https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala), [pickling](https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala),<br>[quasiquotes](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45), [source location](https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala)
 - tracing / testing: [expecty](https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala), [specs2](https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala), [scalatest](https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala)
 
 !NOTES
@@ -171,7 +171,7 @@ http://infoscience.epfl.ch/record/185242/files/QuasiquotesForScala.pdf
 ## Static Checks
 
 - [spores](https://github.com/heathermiller/spores/blob/master/src/main/scala/scala/spores/package.scala): closure doesn't capture (accidentally)
-- [`printf` string interpolator](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14)
+- [typesafe `printf` string interpolator](https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14)
 
 !SLIDE
 ## DSLs
@@ -188,7 +188,7 @@ http://infoscience.epfl.ch/record/185242/files/QuasiquotesForScala.pdf
 ###[Eugene's StrangeLoop talk](https://github.com/xeno-by/StrangeLoop2013/blob/master/slides/sessions/Burmako-EvolutionOfScalaMacros.pdf)
 
 !SLIDE left
-# Pro Tips
+## Pro Tips
 - use quasiquotes
 - mind your hygiene
   - be fresh with `freshName`
@@ -197,8 +197,8 @@ http://infoscience.epfl.ch/record/185242/files/QuasiquotesForScala.pdf
 - avoid `resetAttrs`, combine typed trees<br>(improving this = research)
 - unit test [using toolbox compiler](https://github.com/scala/scala-continuations/blob/master/library/src/test/scala/scala/tools/selectivecps/CompilerErrors.scala#L227)
 
-!SLIDE bigcode left
-# Run-time Reflection
+!SLIDE bigcode 
+## Run-time Reflection
 
 ``` text/x-scala
 import scala.reflect.runtime.universe._
@@ -214,11 +214,11 @@ val toolbox =
 toolbox.eval(tree)
 ```
 
-!SLIDE left
-# Bigger Example
+!SLIDE
+## Bigger Example
 (Thanks @den_sh & @retronym!)
 
-## Tuplification
+### Tuplification
 
 ``` text/x-scala
 case class Person(name: String, age: Int)
@@ -331,8 +331,4 @@ without quasiquotes: https://github.com/scalamacros/kepler/blob/7b890f71ecd0d28c
 ## M8, last milestone: Jan 10
 ## RC1: Feb 14
 
-!SLIDE
-# Thanks!
-
-# Questions!
-
+!SLIDE questions

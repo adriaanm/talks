@@ -101,7 +101,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>meta-program</h2>
@@ -118,7 +118,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>quasiquotes</h2>
@@ -134,7 +134,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>macro invocation</h2>
@@ -187,7 +187,7 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
         <h2>wild<code>^W</code>whitebox</h2>
@@ -259,7 +259,7 @@
         
         <ul>
         <li>faster code: <a href="https://github.com/ochafik/Scalaxy/blob/master/Loops/src/main/scala/scalaxy/loops.scala">foreach</a>, <a href="http://lampwww.epfl.ch/~hmiller/scala2013/resources/pdfs/paper10.pdf">specialized</a>, <a href="https://github.com/scala-blitz/scala-blitz/tree/master/src/main/scala/scala/collection/par/workstealing/internal">fast || colls</a></li>
-        <li><del>boilerplate</del>: <a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45">quasiquotes</a>, <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
+        <li><del>boilerplate</del>: <a href="https://github.com/playframework/playframework/blob/master/framework/src/play-json/src/main/scala/play/api/libs/json/JsMacroImpl.scala">play's json inception</a>, <a href="https://github.com/scala/pickling/blob/2.10.x/core/src/main/scala/pickling/Macros.scala">pickling</a>,<br><a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/quasiquotes/Quasiquotes.scala#L45">quasiquotes</a>, <a href="https://github.com/scala/scala/blob/master/test/files/run/macro-sip19-revised/Impls_Macros_1.scala">source location</a></li>
         <li>tracing / testing: <a href="https://github.com/pniederw/expecty/blob/master/src/main/scala/org/expecty/RecorderMacro.scala">expecty</a>, <a href="https://github.com/etorreborre/specs2/blob/master/matcher-extra/src/main/scala/org/specs2/matcher/MatcherMacros.scala">specs2</a>, <a href="https://github.com/scalatest/scalatest/blob/master/src/main/scala/org/scalatest/AssertionsMacro.scala">scalatest</a></li>
         </ul>
       </div>
@@ -272,7 +272,7 @@
         
         <ul>
         <li><a href="https://github.com/heathermiller/spores/blob/master/src/main/scala/scala/spores/package.scala">spores</a>: closure doesn't capture (accidentally)</li>
-        <li><a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14"><code>printf</code> string interpolator</a></li>
+        <li><a href="https://github.com/scala/scala/blob/master/src/compiler/scala/tools/reflect/MacroImplementations.scala#L14">typesafe <code>printf</code> string interpolator</a></li>
         </ul>
       </div>
       <div class='spacer bottom'></div>
@@ -306,7 +306,7 @@
     <section class='left slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Pro Tips</h1>
+        <h2>Pro Tips</h2>
         
         <ul>
         <li>use quasiquotes</li>
@@ -324,24 +324,24 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='bigcode left slide'>
+    <section class='bigcode slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Run-time Reflection</h1>
+        <h2>Run-time Reflection</h2>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>import scala.reflect.runtime.universe._&#x000A;import scala.tools.reflect._&#x000A;&#x000A;val tree = q"println(1)"&#x000A;val id = show(tree)&#x000A;val raw = showRaw(tree)&#x000A;&#x000A;val toolbox =&#x000A; reflect.runtime.currentMirror.mkToolBox()&#x000A;&#x000A;toolbox.eval(tree)</textarea>
     </p>
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='left slide'>
+    <section class='slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Bigger Example</h1>
+        <h2>Bigger Example</h2>
         
         <p>(Thanks @den_sh &amp; @retronym!)</p>
         
-        <h2>Tuplification</h2>
+        <h3>Tuplification</h3>
         
         <p><textarea class='code' display='none' mode='text/x-scala'>case class Person(name: String, age: Int)&#x000A;&#x000A;tuplify(Person("a", 1)) == ("a", 1)</textarea>
     </p>
@@ -456,12 +456,10 @@
       </div>
       <div class='spacer bottom'></div>
     </section>
-    <section class='slide'>
+    <section class='questions slide'>
       <div class='spacer top'></div>
       <div class='content'>
-        <h1>Thanks!</h1>
         
-        <h1>Questions!</h1>
       </div>
       <div class='spacer bottom'></div>
     </section>

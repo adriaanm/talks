@@ -1,6 +1,9 @@
 /* Loosely based on the Midnight Textmate theme */
 
-.cm-s-default { background: #0a001f; color: #f8f8f8; }
+.cm-s-default { 
+  background: #0a001f;
+  color: #f8f8f8;
+}
 .cm-s-default span.CodeMirror-selected { background: #a8f !important; }
 .cm-s-default .CodeMirror-gutter { background: #0a001f; border-right: 1px solid #aaa; }
 .cm-s-default .CodeMirror-gutter-text { color: #f8f8f8; }

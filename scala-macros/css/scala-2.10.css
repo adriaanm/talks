@@ -8,6 +8,20 @@
  
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900,400italic,600italic,700italic,900italic);
 
+
+.deck-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.25;
+  overflow: hidden;
+  /* Resets and base styles from HTML5 Boilerplate */
+  /* End HTML5 Boilerplate adaptations */
+}
+
+
 .keydown.deck-container .slide.top .spacer.top {
     -webkit-box-flex: 0;
     -moz-box-flex: 0;
@@ -17,6 +31,7 @@
 
 .keydown.deck-container {
   background-color: white;
+  font-family: 'Source Sans Pro', sans-serif;  
 }
 
 .keydown.deck-container .slide {
@@ -41,7 +56,6 @@
 }
 
 .keydown.deck-container h1 {
-  font-family: 'Source Sans Pro', sans-serif;
 /*  color: white;*/
   font-weight: 400;
 /* 
@@ -56,25 +70,9 @@
 
 .deck-container .slide .CodeMirror {
 /*  min-width: 90%;*/
-  max-width: 990px;
+  max-width: 1200px;
 }
 
-/*.deck-container .centered {
-  text-align: center;
-}
-*/
-
-.deck-container {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  margin: 0 auto;
-  font-size: 16px;
-  line-height: 1.25;
-  overflow: hidden;
-  /* Resets and base styles from HTML5 Boilerplate */
-  /* End HTML5 Boilerplate adaptations */
-}
 
 .deck-container .slide.bigcode {
   padding: 0 0 !important;
@@ -86,12 +84,11 @@
   color: #d64546;
 }
 
-
 .deck-container .slide .CodeMirror pre {
-  font-size: 1.5em;
+  font-size: 2em;
 }
 .deck-container .slide .CodeMirror {
-    line-height: 1.5em;
+    line-height: 2em;
     font-family: monospace;
 }
 

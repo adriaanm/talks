@@ -29,9 +29,9 @@
 !SLIDE 
 ## BTW! The Source
 
-##### [https://github.com/adriaanm/talks/tree/master/scala-macros](https://github.com/adriaanm/talks/tree/master/scala-macros)
-##### [https://github.com/adriaanm/replhtml/tree/decouple](https://github.com/adriaanm/replhtml/tree/decouple)
-##### [https://github.com/adriaanm/deck.js-codemirror](https://github.com/adriaanm/deck.js-codemirror)
+#### [github.com/adriaanm/talks/tree/master/scala-macros](https://github.com/adriaanm/talks/tree/master/scala-macros)
+#### [github.com/adriaanm/replhtml/tree/decouple](https://github.com/adriaanm/replhtml/tree/decouple)
+#### [github.com/adriaanm/deck.js-codemirror](https://github.com/adriaanm/deck.js-codemirror)
 
 !SLIDE
 ## Macro: two-faced `$%#`

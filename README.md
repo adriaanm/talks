@@ -9,4 +9,5 @@ More recent talks ([source](https://github.com/adriaanm/reveal.js/)):
   - [The Future of Scala (2.12 and beyond)](https://adriaanm.github.io/reveal.js/scala-next.html) ([Presented at GOTO Chicago, May 2015](https://www.youtube.com/watch?v=aS_0TNXtj-I), also presented at Twitter on Feb 17, 2015)
   - [Scala 2.12 &amp; Java 8: more fun together!](https://adriaanm.github.io/reveal.js/scala-2.12.html) ([Presented at Philly ETE, April 11 2016](https://vimeo.com/166266891))
   - [Scala 2.12 &amp; beyond](https://adriaanm.github.io/reveal.js/scala-2.12-beyond.html) (Scala by the Bay. Nov 11, 2016)
+  - [Scala in 2016 &amp; beyond](https://adriaanm.github.io/reveal.js/scalax2016.html) (Scala eXchange. Dec 8, 2016)
   

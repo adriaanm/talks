@@ -12,4 +12,5 @@ More recent talks ([source](https://github.com/adriaanm/reveal.js/)):
   - [Scala in 2016 &amp; beyond](https://adriaanm.github.io/reveal.js/scalax2016.html) (Scala eXchange. Dec 8, 2016)
   - [Scala 2.12 &amp; beyond](https://adriaanm.github.io/reveal.js/scala-2.12-2017.html) (Scaladays Chicago, Apr 20–21, 2017 and Copenhagen, June 2, 2017)
   - [Scala 2.12 &amp; beyond (short version)](https://adriaanm.github.io/reveal.js/scala-2.12-2017-20min.html)
+  - [Scala 2.13 &amp; beyond](https://adriaanm.github.io/reveal.js/scala-2.13-beyond.html) (Scala/e by the Bay, Nov 17 2017)
   
